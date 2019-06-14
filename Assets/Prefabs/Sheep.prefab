@@ -93,8 +93,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSpeed: 5
   maxSpeed: 10
-  minPathTime: 1
+  minPathTime: 2
   maxPathTime: 6
+  minFollowChance: 2
+  maxFollowChance: 8
 --- !u!195 &484398054
 NavMeshAgent:
   m_ObjectHideFlags: 0

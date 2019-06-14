@@ -7,15 +7,20 @@ public class SheepController : MonoBehaviour
 {
     public float minSpeed, maxSpeed;
     public float minPathTime, maxPathTime;
+    public int minFollowChance, maxFollowChance;
 
     private NavMeshAgent agent;
+    private SheepController follow;
     private float pathTime;
     private float speed;
+    private int followChance;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         speed = Random.Range(minSpeed, maxSpeed);
+        followChance = Random.Range(minFollowChance, maxFollowChance);
+        transform.localScale = transform.localScale * Random.Range(0.8F, 1.2F);
     }
 
     void Update()
@@ -23,18 +28,29 @@ public class SheepController : MonoBehaviour
         if (Time.time > pathTime)
             SetTarget();
 
+        if (follow != this)
+            agent.destination = follow.transform.position;
+
         Vector3 avoidVec;
         if (SheepManager.instance.AvoidPiles(transform.position, out avoidVec))
         {
             agent.destination = transform.position + avoidVec.normalized * SheepManager.instance.pileAvoidDist;
-            agent.speed = speed * Random.Range(1.25F, 2F);
+            agent.speed = speed * Random.Range(1.5F, 2F);
             pathTime = Time.time + 2;
         }
     }
 
     void SetTarget()
     {
-        agent.destination = transform.position + new Vector3(Random.Range(-10F, 10F), 0, Random.Range(-10F, 10F));
+        if (Random.Range(0, followChance) != 0 || (follow = SheepManager.instance.GetSheepToFollow(this)) == this)
+        {
+            follow = this;
+            agent.destination = transform.position + new Vector3(Random.Range(-10F, 10F), 0, Random.Range(-10F, 10F));
+        }
+
+        if (follow.follow == this)
+            follow = this;
+
         agent.speed = speed;
         pathTime = Time.time + Random.Range(minPathTime, maxPathTime);
     }

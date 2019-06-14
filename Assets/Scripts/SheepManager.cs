@@ -14,6 +14,7 @@ public class SheepManager : MonoBehaviour
     public float minBarkFleeDist, maxBarkFleeDist;
 
     public float pileAvoidDist;
+    public float maxFollowDist;
 
     private List<SheepController> sheep = new List<SheepController>();
     private List<Vector3> piles = new List<Vector3>();
@@ -40,6 +41,17 @@ public class SheepManager : MonoBehaviour
             }
 
         return avoid;
+    }
+
+    public SheepController GetSheepToFollow(SheepController me)
+    {
+        for (int i = 0; i < 5; ++i)
+        {
+            SheepController candidate = sheep[Random.Range(0, sheep.Count)];
+            if ((candidate.transform.position - me.transform.position).sqrMagnitude < maxFollowDist * maxFollowDist)
+                return candidate;
+        }
+        return me;
     }
 
     public void AddPile(Vector3 pos)
