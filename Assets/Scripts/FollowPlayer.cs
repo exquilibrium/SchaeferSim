@@ -17,9 +17,9 @@ public class FollowPlayer : MonoBehaviour
     void Update()
     {
         Vector3 targetPosition = player.position + new Vector3(0, distance, -distance);
-        transform.position = targetPosition;
-        // transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-        transform.LookAt(player.position);
-        // transform.LookAt(new Vector3(transform.position.x, player.position.y, transform.position.z));
+        // transform.position = targetPosition;
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        // transform.LookAt(player.position);
+        transform.LookAt(new Vector3(transform.position.x, player.position.y, player.position.z));
     }
 }
