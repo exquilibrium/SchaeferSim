@@ -60,6 +60,7 @@ public class SheepController : MonoBehaviour
         agent.destination = transform.position + (transform.position - pos).normalized * dist;
         agent.speed = speed * Random.Range(1.25F, 2F);
         pathTime = Time.time + time;
+        follow = this;
     }
 
     private void OnDrawGizmos()
