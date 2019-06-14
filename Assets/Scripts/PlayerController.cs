@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public Text pileText;
     public int piles;
 
+    public int controller;
+
     private NavMeshAgent agent;
 
     void Start()
@@ -21,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("DropPile"))
+        if (Input.GetButtonDown("DropPile" + controller))
         {
             if (piles > 0)
             {
@@ -32,13 +34,21 @@ public class PlayerController : MonoBehaviour
                 pileText.text = "" + piles;
             }
         }
-        if (Input.GetButtonDown("Bark"))
+        if (Input.GetButtonDown("Bark" + controller))
         {
             barkParticles.Play();
             SheepManager.instance.OnBark(transform.position);
         }
+        if (Input.GetButtonDown("Kill" + controller))
+        {
+            if (SheepManager.instance.KillClosest(transform.position))
+            {
+                piles = Mathf.Min(3, piles + 1);
+                pileText.text = "" + piles;
+            }
+        }
 
-        agent.destination = transform.position + new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        agent.destination = transform.position + new Vector3(Input.GetAxis("Horizontal" + controller), 0, Input.GetAxis("Vertical" + controller));
     }
 
     private void OnDrawGizmos()

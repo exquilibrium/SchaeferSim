@@ -9,6 +9,7 @@ public class SheepManager : MonoBehaviour
     public GameObject sheepPrefab;
     public int spawnCount;
 
+    public float killDistance;
     public float barkDistance;
     public float minBarkFleeTime, maxBarkFleeTime;
     public float minBarkFleeDist, maxBarkFleeDist;
@@ -18,6 +19,7 @@ public class SheepManager : MonoBehaviour
 
     private List<SheepController> sheep = new List<SheepController>();
     private List<Vector3> piles = new List<Vector3>();
+    private int finishedSheep = 0;
 
     void Start()
     {
@@ -64,6 +66,43 @@ public class SheepManager : MonoBehaviour
         foreach (SheepController s in sheep)
             if ((s.transform.position - pos).sqrMagnitude < barkDistance * barkDistance)
                 s.Flee(pos, Random.Range(minBarkFleeDist, maxBarkFleeDist), Random.Range(minBarkFleeTime, maxBarkFleeTime));
+    }
+
+    public bool KillClosest(Vector3 pos)
+    {
+        float closestDst = 100;
+        SheepController closest = null;
+
+        foreach (SheepController s in sheep)
+        {
+            float dist = (s.transform.position - pos).sqrMagnitude;
+            if (dist < killDistance * killDistance && (closest == null || dist < closestDst))
+            {
+                closestDst = dist;
+                closest = s;
+            }
+        }
+
+        if (closest != null)
+        {
+            sheep.Remove(closest);
+            closest.Kill();
+            return true;
+        }
+
+        return false;
+    }
+
+    public void FinishSheep(SheepController s)
+    {
+        sheep.Remove(s);
+        finishedSheep++;
+        Debug.Log("A sheep reached the goal.");
+    }
+
+    private void EndGame()
+    {
+        Debug.Log("End, Finished sheep: " + finishedSheep);
     }
 
     private void OnDrawGizmos()
