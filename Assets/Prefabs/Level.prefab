@@ -75,7 +75,7 @@ Terrain:
   serializedVersion: 4
   m_TerrainData: {fileID: 15600000, guid: da7fa46128f9f70448fc007ed5f447b7, type: 2}
   m_TreeDistance: 5000
-  m_TreeBillboardDistance: 50
+  m_TreeBillboardDistance: 2000
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
   m_DetailObjectDistance: 80
@@ -139,8 +139,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3513193699989987666}
   m_LocalRotation: {x: -0, y: 0.38575137, z: -0, w: 0.9226028}
-  m_LocalPosition: {x: 539.3, y: 202.3, z: 466.6}
-  m_LocalScale: {x: 20, y: 1, z: 399.99994}
+  m_LocalPosition: {x: 515.7, y: 203.1, z: 443.3}
+  m_LocalScale: {x: 20, y: 1, z: 168.5792}
   m_Children: []
   m_Father: {fileID: 3180426944530374547}
   m_RootOrder: 1
@@ -170,7 +170,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b11c3ae4443ad094f80314ba271eaabf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
