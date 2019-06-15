@@ -17,7 +17,6 @@ public class SheepManager : MonoBehaviour
 
     public float pileAvoidDist;
     public float maxFollowDist;
-    public float maxGroupDist = 0;
 
     private List<SheepController> sheep = new List<SheepController>();
     private List<Vector3> piles = new List<Vector3>();

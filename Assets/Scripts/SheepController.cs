@@ -79,16 +79,6 @@ public class SheepController : MonoBehaviour
         }
     }
 
-    void SetGroup()
-    {
-        // Group with others
-        Vector3 groupVec;
-        if (SheepManager.instance.StayGroup(transform.position, out groupVec))
-        {
-            agent.destination += transform.position + groupVec.normalized;
-        }
-    }
-
     void SetTarget()
     {
         // Sets sheep target as rand
