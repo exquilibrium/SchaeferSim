@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem barkParticles;
     public Text pileText;
     public int piles;
+    public int pilesPerKill;
 
     public int controller;
 
@@ -21,6 +22,14 @@ public class PlayerController : MonoBehaviour
         pileText.text = "" + piles;
     }
 
+    /*
+     * Input:
+     * DropPile - Space
+     * Bark - E
+     * Kill - Q
+     * 
+     * Movement - WASD / ArrowKeys
+     */
     void Update()
     {
         if (Input.GetButtonDown("DropPile" + controller))
@@ -41,16 +50,18 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetButtonDown("Kill" + controller))
         {
+            // Kill closest sheep if possible
             if (SheepManager.instance.KillClosest(transform.position))
             {
-                piles = Mathf.Min(3, piles + 1);
+                piles = Mathf.Min(3, piles + pilesPerKill);
                 pileText.text = "" + piles;
             }
         }
-
+        // Player movement
         agent.destination = transform.position + new Vector3(Input.GetAxis("Horizontal" + controller), 0, Input.GetAxis("Vertical" + controller));
     }
 
+    // Debug
     private void OnDrawGizmos()
     {
         if (SheepManager.instance == null)

@@ -9,12 +9,14 @@ public class TitleController : MonoBehaviour
 
     void Start()
     {
+        // Activate title on start
         text = GetComponent<TextMesh>();
         cam.titleScreen = true;
     }
 
     void Update()
     {
+        // Deactivate title on input
         if (Input.anyKeyDown)
         {
             gameObject.SetActive(false);

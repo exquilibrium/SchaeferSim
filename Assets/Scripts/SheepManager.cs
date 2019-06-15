@@ -33,6 +33,7 @@ public class SheepManager : MonoBehaviour
 
     public bool AvoidPiles(Vector3 pos, out Vector3 avoidVec)
     {
+        // Avoid piles if within piles range
         bool avoid = false;
         avoidVec = Vector3.zero;
         foreach (Vector3 p in piles)
@@ -47,6 +48,7 @@ public class SheepManager : MonoBehaviour
 
     public Vector3 CalcAvgPos()
     {
+        // Calculate middlepoint between all existing sheeps
         Vector3 avgPos = Vector3.zero;
         for (int i = 0; i < sheep.Count; i++)
         {
@@ -57,6 +59,7 @@ public class SheepManager : MonoBehaviour
 
     public SheepController GetSheepToFollow(SheepController me)
     {
+        // Sheeps follow candidate sheep if within following distance
         for (int i = 0; i < 5; ++i)
         {
             SheepController candidate = sheep[Random.Range(0, sheep.Count)];
@@ -73,6 +76,7 @@ public class SheepManager : MonoBehaviour
 
     public void OnBark(Vector3 pos)
     {
+        // Sheeps flee from player
         foreach (SheepController s in sheep)
             if ((s.transform.position - pos).sqrMagnitude < barkDistance * barkDistance)
                 s.Flee(pos, Random.Range(minBarkFleeDist, maxBarkFleeDist), Random.Range(minBarkFleeTime, maxBarkFleeTime));
@@ -80,9 +84,11 @@ public class SheepManager : MonoBehaviour
 
     public bool KillClosest(Vector3 pos)
     {
+        // Max distance of closest sheep
         float closestDst = 100;
         SheepController closest = null;
 
+        // Find closest sheep
         foreach (SheepController s in sheep)
         {
             float dist = (s.transform.position - pos).sqrMagnitude;
@@ -93,10 +99,16 @@ public class SheepManager : MonoBehaviour
             }
         }
 
+        // Kill closes sheep
         if (closest != null)
         {
             sheep.Remove(closest);
             closest.Kill();
+            // Endgame when all sheeps are gone
+            if (sheep.Count == 0)
+            {
+                EndGame();
+            }
             return true;
         }
 
@@ -108,6 +120,12 @@ public class SheepManager : MonoBehaviour
         sheep.Remove(s);
         finishedSheep++;
         Debug.Log("A sheep reached the goal.");
+        
+        // Endgame when all sheeps are gone
+        if (sheep.Count == 0)
+        {
+            EndGame();
+        }
     }
 
     private void EndGame()
