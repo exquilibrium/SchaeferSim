@@ -12,7 +12,7 @@ public class SheepController : MonoBehaviour
     public float minPathTime, maxPathTime;
     public float pathTargetRange;
     public int minFollowChance, maxFollowChance;
-
+    
     private NavMeshAgent agent;
     private Animator anim;
     private SheepController follow;
@@ -59,7 +59,9 @@ public class SheepController : MonoBehaviour
 
         if (Time.time > pathTime)
             SetTarget();
+            // SetTargetAvgPos();
 
+        // Only follow alive sheeps, else follow self
         if (follow != this)
         {
             if (follow.isDead)
@@ -68,6 +70,7 @@ public class SheepController : MonoBehaviour
                 agent.destination = follow.transform.position;
         }
 
+        // Avoid piles
         Vector3 avoidVec;
         if (panic < 2F && SheepManager.instance.AvoidPiles(transform.position, out avoidVec))
         {
@@ -77,13 +80,28 @@ public class SheepController : MonoBehaviour
         }
     }
 
+    void SetTargetAvgPos()
+    {
+        // Sets sheep target position as random area near middlepoint of all sheeps
+        if (Random.Range(0, followChance) > followChance / 4)
+        {
+            agent.destination = SheepManager.instance.CalcAvgPos() + new Vector3(Random.Range(-3F, 3F), 0, Random.Range(-3F, 3F));
+        } else
+        {
+            agent.destination = transform.position + new Vector3(Random.Range(-10F, 10F), 0, Random.Range(-10F, 10F));
+        }
+        agent.speed = speed;
+        pathTime = Time.time + Random.Range(minPathTime, maxPathTime);
+    }
+
     void SetTarget()
     {
+        // Sets sheep target as rand
         if (Random.Range(0, followChance) != 0 || (follow = SheepManager.instance.GetSheepToFollow(this)) == this)
         {
             follow = this;
             agent.destination = transform.position + new Vector3(Random.Range(-pathTargetRange, pathTargetRange), 0, Random.Range(-pathTargetRange, pathTargetRange));
-        }
+        } 
 
         if (follow.follow == this)
             follow = this;
