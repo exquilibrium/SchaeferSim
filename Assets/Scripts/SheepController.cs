@@ -76,7 +76,7 @@ public class SheepController : MonoBehaviour
             return;
         }
 
-        if (panic > 3)
+        if (panic > 1)
         {
             sickTimer += Time.deltaTime;
             if (sickTimer > minSickTime)
@@ -106,7 +106,7 @@ public class SheepController : MonoBehaviour
                 return;
         }
 
-        if (panic < -5 && state == State.ALIVE)
+        if (panic < -5 && (state == State.ALIVE ||state == State.SICK))
         {
             sleepTimer += Time.deltaTime;
             if (sleepTimer > sleepWaitTime)
@@ -139,11 +139,13 @@ public class SheepController : MonoBehaviour
             if (infecTimer > maxInfecTime)
             {
                 infecTimer = 0;
-                if (maxPanicCounter > 3 && Random.Range(0, 4) == 0) { 
-                    SheepManager.instance.InfectClosest(transform.position, this);
+                if (maxPanicCounter > 3 && Random.Range(0, 4) == 0)
+                { 
+                    if (SheepManager.instance.InfectClosest(transform.position, this)) maxPanicCounter -= 1;
                 }
             }
             indicatorMat.color = new Color(0.5F, 0, 0.5F);
+            panic = panic - Time.deltaTime;
         }
         else if (state == State.LOVE)
         {

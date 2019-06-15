@@ -106,7 +106,6 @@ public class SheepManager : MonoBehaviour
             closest.state = SheepController.State.SICK;
             return true;
         }
-
         return false;
     }
 
@@ -126,7 +125,6 @@ public class SheepManager : MonoBehaviour
                 closest = s;
             }
         }
-
         return closest;
     }
 
