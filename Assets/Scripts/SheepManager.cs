@@ -94,7 +94,7 @@ public class SheepManager : MonoBehaviour
         sheep.Remove(s);
     }
 
-    public SheepController FindClosest(Vector3 pos, float maxDist)
+    public SheepController FindClosest(Vector3 pos, float maxDist, SheepController ignore = null)
     {
         // Max distance of closest sheep
         float closestDst = maxDist * maxDist;
@@ -104,7 +104,7 @@ public class SheepManager : MonoBehaviour
         foreach (SheepController s in sheep)
         {
             float dist = (s.transform.position - pos).sqrMagnitude;
-            if (dist <= closestDst)
+            if (s != ignore && dist <= closestDst)
             {
                 closestDst = dist;
                 closest = s;
