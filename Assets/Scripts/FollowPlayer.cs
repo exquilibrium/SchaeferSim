@@ -11,6 +11,7 @@ public class FollowPlayer : MonoBehaviour
     public float heightAngle;
     public float smoothTime;
     public float titleRotateSpeed;
+    public float multiDistFact, maxMultiDist;
 
     private Vector3 velocity = Vector3.zero;
 
@@ -37,7 +38,7 @@ public class FollowPlayer : MonoBehaviour
         else
         {
             Vector3 target = (player1.position + player2.position) / 2F;
-            dist = distance + (player1.position - player2.position).magnitude * heightAngle;
+            dist = distance + Mathf.Min(maxMultiDist, (player1.position - player2.position).magnitude * multiDistFact);
             transform.position = Vector3.SmoothDamp(transform.position, target + new Vector3(0, dist * heightAngle, -dist), ref velocity, smoothTime);
             transform.LookAt(target);
         }

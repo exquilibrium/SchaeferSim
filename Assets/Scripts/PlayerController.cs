@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     public GameObject pilePrefab;
-    public ParticleSystem barkParticles;
+    public ParticleSystem barkParticles, barkLineParticles;
     public Text pileText;
     public int piles;
     public int pilesPerKill;
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Bark" + controller))
         {
             barkParticles.Play();
+            barkLineParticles.Play();
             SheepManager.instance.OnBark(transform.position);
             SheepManager.instance.SpawnPopup(transform.position, wuffs[Random.Range(0, wuffs.Length)]);
         }

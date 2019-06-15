@@ -15,6 +15,8 @@ public class SheepController : MonoBehaviour
     };
 
     public Transform indicator;
+    public ParticleSystem heartSystem;
+    public GameObject deathPrefab;
 
     public State state = State.ALIVE;
     public float minSpeed, maxSpeed;
@@ -76,7 +78,7 @@ public class SheepController : MonoBehaviour
             return;
         }
 
-        if (panic > 3)
+        if (panic > 1)
         {
             sickTimer += Time.deltaTime;
             if (sickTimer > minSickTime)
@@ -106,7 +108,7 @@ public class SheepController : MonoBehaviour
                 return;
         }
 
-        if (panic < -5 && state == State.ALIVE)
+        if (panic < -5 && (state == State.ALIVE ||state == State.SICK))
         {
             sleepTimer += Time.deltaTime;
             if (sleepTimer > sleepWaitTime)
@@ -139,11 +141,13 @@ public class SheepController : MonoBehaviour
             if (infecTimer > maxInfecTime)
             {
                 infecTimer = 0;
-                if (maxPanicCounter > 3 && Random.Range(0, 4) == 0) { 
-                    SheepManager.instance.InfectClosest(transform.position, this);
+                if (maxPanicCounter > 3 && Random.Range(0, 4) == 0)
+                { 
+                    if (SheepManager.instance.InfectClosest(transform.position, this)) maxPanicCounter -= 1;
                 }
             }
             indicatorMat.color = new Color(0.5F, 0, 0.5F);
+            panic = panic - Time.deltaTime;
         }
         else if (state == State.LOVE)
         {
@@ -152,6 +156,15 @@ public class SheepController : MonoBehaviour
             if (panic > 0)
                 state = State.ALIVE;
         }
+
+        if (state == State.LOVE)
+        {
+            if (!heartSystem.isPlaying)
+                heartSystem.Play();
+        }
+        else 
+            if (heartSystem.isPlaying)
+                heartSystem.Stop();
 
         if (Time.time > pathTime || panic > 0 && (agent.destination - transform.position).sqrMagnitude < 1)
             SetTarget();
@@ -250,6 +263,7 @@ public class SheepController : MonoBehaviour
         agent.isStopped = true;
         Destroy(gameObject, 0.5F);
         indicatorMat.color = new Color(0.2F, 0, 0);
+        Instantiate(deathPrefab, transform.position, transform.rotation);
     }
 
     private void OnTriggerEnter(Collider other)
