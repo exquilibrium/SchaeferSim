@@ -217,14 +217,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicator: {fileID: 8559878668848583454}
-  isDead: 0
+  state: 1
   minSpeed: 5
   maxSpeed: 10
   minPathTime: 2
   maxPathTime: 6
+  minSleepWaitTime: 5
+  maxSleepTime: 10
   pathTargetRange: 7.5
   minFollowChance: 2
   maxFollowChance: 8
+  wanderOffChance: 20
 --- !u!195 &484398054
 NavMeshAgent:
   m_ObjectHideFlags: 0

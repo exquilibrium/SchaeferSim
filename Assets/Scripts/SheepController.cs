@@ -5,19 +5,29 @@ using UnityEngine.AI;
 
 public class SheepController : MonoBehaviour
 {
+    public enum State
+    {
+        DEAD,
+        ALIVE,
+        SLEEPING,
+    };
+
     public Transform indicator;
 
-    public bool isDead;
+    public State state = State.ALIVE;
     public float minSpeed, maxSpeed;
     public float minPathTime, maxPathTime;
+    public float minSleepWaitTime, maxSleepTime;
     public float pathTargetRange;
     public int minFollowChance, maxFollowChance;
-    
+    public int wanderOffChance;
+
     private NavMeshAgent agent;
     private Animator anim;
     private SheepController follow;
     private float pathTime;
     private float speed;
+    private float sleepTimer;
     private int followChance;
 
     private float panic;
@@ -45,7 +55,7 @@ public class SheepController : MonoBehaviour
         indicator.transform.localPosition = Vector3.up * (0.6F + 0.1F * Mathf.Cos(Time.time * 3 + floatOffset));
         indicator.transform.rotation = Quaternion.Euler(45, Time.time * 90 + rotOffset, 45);
 
-        if (isDead)
+        if (state == State.DEAD)
             return;
 
         if (panic > 5)
@@ -54,8 +64,35 @@ public class SheepController : MonoBehaviour
             return;
         }
 
+        if (state == State.SLEEPING)
+        {
+            if (Random.Range(0, 200) == 0)
+                SheepManager.instance.SpawnPopup(transform.position, "Zzz");
+            sleepTimer -= Time.deltaTime;
+            if (sleepTimer <= 0)
+            {
+                panic = 0;
+                sleepTimer = 0;
+                state = State.ALIVE;
+            }
+            else
+                return;
+        }
+
+        if (panic < -5)
+        {
+            sleepTimer += Time.deltaTime;
+            if (sleepTimer > minSleepWaitTime)
+            {
+                sleepTimer = Random.Range(maxSleepTime * 0.5F, maxSleepTime);
+                state = State.SLEEPING;
+                indicatorMat.color = new Color(0, 0, 1);
+            }
+            return;
+        }
+
         indicatorMat.color = new Color(panic, 1 - (panic - 1), 0);
-        panic = Mathf.Max(0, panic - Time.deltaTime);
+        panic = panic - Time.deltaTime;
 
         if (Time.time > pathTime)
                 SetTarget();
@@ -63,7 +100,7 @@ public class SheepController : MonoBehaviour
         // Only follow alive sheeps, else follow self
         if (follow != this)
         {
-            if (follow.isDead)
+            if (follow.state == State.DEAD)
                 follow = this;
             else
                 agent.destination = follow.transform.position;
@@ -85,7 +122,11 @@ public class SheepController : MonoBehaviour
         if (Random.Range(0, followChance) != 0 || (follow = SheepManager.instance.GetSheepToFollow(this)) == this)
         {
             follow = this;
-            agent.destination = transform.position + new Vector3(Random.Range(-pathTargetRange, pathTargetRange), 0, Random.Range(-pathTargetRange, pathTargetRange));
+            if (Random.Range(0, wanderOffChance) == 0)
+                agent.destination = transform.position + new Vector3(Random.Range(pathTargetRange * 2, pathTargetRange * 5) * Random.Range(-1, 1), 0, Random.Range(pathTargetRange * 2, pathTargetRange * 5) * Random.Range(-1, 1));
+
+            else
+                agent.destination = transform.position + new Vector3(Random.Range(-pathTargetRange, pathTargetRange), 0, Random.Range(-pathTargetRange, pathTargetRange));
         } 
 
         if (follow.follow == this)
@@ -97,7 +138,16 @@ public class SheepController : MonoBehaviour
 
     public void Flee(Vector3 pos, float dist, float time)
     {
-        panic += 1;
+        if (state == State.DEAD)
+            return;
+
+        if (state == State.SLEEPING)
+        {
+            state = State.ALIVE;
+            panic = Mathf.Max(0, panic) + 2;
+        }
+        else
+            panic = Mathf.Max(0, panic) + 1;
 
         agent.destination = transform.position + (transform.position - pos).normalized * dist;
         agent.speed = Mathf.Max(agent.speed, speed * Random.Range(1.25F + panic, 1.5F + panic));
@@ -108,7 +158,7 @@ public class SheepController : MonoBehaviour
     public void Kill()
     {
         SheepManager.instance.OnKillSheep(this);
-        isDead = true;
+        state = State.DEAD;
         agent.isStopped = true;
         Destroy(gameObject, 0.5F);
         indicatorMat.color = new Color(0.2F, 0, 0);
@@ -116,9 +166,9 @@ public class SheepController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isDead && other.CompareTag("Finish"))
+        if (state != State.DEAD && other.CompareTag("Finish"))
         {
-            isDead = true;
+            state = State.DEAD;
             follow = this;
             pathTime = Time.time + 1000;
             agent.destination = other.transform.position;
@@ -129,7 +179,7 @@ public class SheepController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (isDead || agent == null)
+        if (state == State.DEAD || agent == null)
             return;
 
         Gizmos.color = new Color(panic, 1 - (panic - 1), 0);
