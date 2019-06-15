@@ -4850,8 +4850,17 @@ MonoBehaviour:
   barkParticles: {fileID: 1644593997}
   pileText: {fileID: 0}
   piles: 3
-  pilesPerKill: 0
+  pilesPerKill: 1
   controller: 0
+  wuffs:
+  - Wuff!
+  - Woof!
+  - Arf!
+  - Wouf!
+  - WOOF!
+  - Wof!
+  - Woohf!
+  - Wuuf!
 --- !u!195 &2072454442672504959
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4864,7 +4873,7 @@ NavMeshAgent:
   m_Radius: 0.5
   m_Speed: 20
   m_Acceleration: 100
-  avoidancePriority: 50
+  avoidancePriority: 99
   m_AngularSpeed: 1800
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
@@ -4873,7 +4882,7 @@ NavMeshAgent:
   m_Height: 1
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 3
 --- !u!95 &374406417793571803
 Animator:
   serializedVersion: 3

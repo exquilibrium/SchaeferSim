@@ -8,6 +8,7 @@ public class FollowPlayer : MonoBehaviour
     public Transform player2;
 
     public float distance;
+    public float heightAngle;
     public float smoothTime;
     public float titleRotateSpeed;
 
@@ -20,7 +21,7 @@ public class FollowPlayer : MonoBehaviour
     {
         // Set default position to player + offset
         dist = distance;
-        transform.position = player1.position + new Vector3(0, dist * 0.75F, -dist);
+        transform.position = player1.position + new Vector3(0, dist * heightAngle, -dist);
     }
 
     void Update()
@@ -29,15 +30,15 @@ public class FollowPlayer : MonoBehaviour
         if (titleScreen)
         {
             float rot = Time.time * titleRotateSpeed - Mathf.PI * 0.5F;
-            transform.position = player1.position + new Vector3(Mathf.Cos(rot), 0.75F, Mathf.Sin(rot)) * dist;
+            transform.position = player1.position + new Vector3(Mathf.Cos(rot), heightAngle, Mathf.Sin(rot)) * dist;
             transform.LookAt(player1.position);
         }
         // Player follow with smoothing
         else
         {
             Vector3 target = (player1.position + player2.position) / 2F;
-            dist = distance + (player1.position - player2.position).magnitude * 0.5F;
-            transform.position = Vector3.SmoothDamp(transform.position, target + new Vector3(0, dist * 0.75F, -dist), ref velocity, smoothTime);
+            dist = distance + (player1.position - player2.position).magnitude * heightAngle;
+            transform.position = Vector3.SmoothDamp(transform.position, target + new Vector3(0, dist * heightAngle, -dist), ref velocity, smoothTime);
             transform.LookAt(target);
         }
 

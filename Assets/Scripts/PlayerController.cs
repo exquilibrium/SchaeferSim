@@ -11,8 +11,9 @@ public class PlayerController : MonoBehaviour
     public Text pileText;
     public int piles;
     public int pilesPerKill;
-
     public int controller;
+
+    public string[] wuffs;
 
     private NavMeshAgent agent;
     private Animator anim;
@@ -51,7 +52,7 @@ public class PlayerController : MonoBehaviour
         {
             barkParticles.Play();
             SheepManager.instance.OnBark(transform.position);
-            SheepManager.instance.SpawnPopup(transform.position, "Wuff");
+            SheepManager.instance.SpawnPopup(transform.position, wuffs[Random.Range(0, wuffs.Length)]);
         }
         if (Input.GetButtonDown("Kill" + controller))
         {
