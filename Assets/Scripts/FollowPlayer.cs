@@ -15,7 +15,7 @@ public class FollowPlayer : MonoBehaviour
 
     void Start()
     {
-        transform.position = player.position;
+        transform.position = player.position + new Vector3(0, distance, -distance);
     }
 
     void Update()
@@ -23,17 +23,12 @@ public class FollowPlayer : MonoBehaviour
         if (titleScreen)
         {
             float rot = Time.time * titleRotateSpeed - Mathf.PI * 0.5F;
-            Vector3 targetPosition = player.position + new Vector3(Mathf.Cos(rot), 0.75F, Mathf.Sin(rot)) * distance;
-            transform.position = targetPosition;
-
+            transform.position = player.position + new Vector3(Mathf.Cos(rot), 0.75F, Mathf.Sin(rot)) * distance;
             transform.LookAt(player.position);
         }
         else
         {
-            Vector3 targetPosition = player.position + new Vector3(0, distance, -distance);
-            // transform.position = targetPosition;
-            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-            // transform.LookAt(player.position);
+            transform.position = Vector3.SmoothDamp(transform.position, player.position + new Vector3(0, distance, -distance), ref velocity, smoothTime);
             transform.LookAt(new Vector3(transform.position.x, player.position.y, player.position.z));
         }
 

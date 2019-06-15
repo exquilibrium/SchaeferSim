@@ -45,6 +45,16 @@ public class SheepManager : MonoBehaviour
         return avoid;
     }
 
+    public Vector3 CalcAvgPos()
+    {
+        Vector3 avgPos = Vector3.zero;
+        for (int i = 0; i < sheep.Count; i++)
+        {
+            avgPos += sheep[i].transform.position;
+        }
+        return avgPos / sheep.Count;
+    }
+
     public SheepController GetSheepToFollow(SheepController me)
     {
         for (int i = 0; i < 5; ++i)
@@ -109,6 +119,6 @@ public class SheepManager : MonoBehaviour
     {
         Gizmos.color = Color.red;
         foreach (Vector3 p in piles)
-            Gizmos.DrawWireSphere(p, pileAvoidDist);
+           Gizmos.DrawWireSphere(p, pileAvoidDist);
     }
 }
