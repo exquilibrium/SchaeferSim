@@ -139,8 +139,7 @@ public class SheepController : MonoBehaviour
             if (infecTimer > maxInfecTime)
             {
                 infecTimer = 0;
-                if (maxPanicCounter > 3 && Random.Range(0, 4) == 0)
-                {
+                if (maxPanicCounter > 3 && Random.Range(0, 4) == 0) { 
                     SheepManager.instance.InfectClosest(transform.position, this);
                 }
             }
