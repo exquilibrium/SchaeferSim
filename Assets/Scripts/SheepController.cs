@@ -76,7 +76,7 @@ public class SheepController : MonoBehaviour
             return;
         }
 
-        if (panic > 1)
+        if (panic > 3)
         {
             sickTimer += Time.deltaTime;
             if (sickTimer > minSickTime)
@@ -139,7 +139,7 @@ public class SheepController : MonoBehaviour
             if (infecTimer > maxInfecTime)
             {
                 infecTimer = 0;
-                if (maxPanicCount > 3 && Random.Range(0, 1) == 0)
+                if (maxPanicCounter > 3 && Random.Range(0, 4) == 0)
                 {
                     SheepManager.instance.InfectClosest(transform.position, this);
                 }
