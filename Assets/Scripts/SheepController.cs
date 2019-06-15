@@ -68,7 +68,7 @@ public class SheepController : MonoBehaviour
         if (state == State.DEAD)
             return;
 
-        if (panic > 5 || (maxPanicCounter > 3 && panic > 3))
+        if (panic > 5 || (maxPanicCounter > 3 && panic > 3) || (maxPanicCounter > 9))
         {
             Kill();
             return;
@@ -232,15 +232,6 @@ public class SheepController : MonoBehaviour
         pathTime = Time.time + time;
         sleepTimer = 0;
         follow = this;
-    }
-
-    public void Infect()
-    {
-        if (Random.Range(0, 2) != 0)
-        {
-            maxPanicCounter += 1;
-            state = State.SICK;
-        }
     }
 
     public void Kill()

@@ -114,21 +114,6 @@ public class SheepManager : MonoBehaviour
         return closest;
     }
 
-    public bool InfectClosest(Vector3 pos)
-    {
-        SheepController closest = FindClosest(pos, infectDistance);
-
-        // Infect closes sheep
-        if (closest != null)
-        {
-            closest.Infect(); ;
-
-            return true;
-        }
-
-        return false;
-    }
-
     public bool KillClosest(Vector3 pos)
     {
         SheepController closest = FindClosest(pos, infectDistance);
