@@ -7,6 +7,7 @@ public class SheepManager : MonoBehaviour
     public static SheepManager instance;
 
     public GameObject sheepPrefab;
+    public GameObject popupPrefab;
     public int spawnCount;
 
     public float killDistance;
@@ -83,6 +84,11 @@ public class SheepManager : MonoBehaviour
                 s.Flee(pos, Random.Range(minBarkFleeDist, maxBarkFleeDist), Random.Range(minBarkFleeTime, maxBarkFleeTime));
     }
 
+    public void OnKillSheep(SheepController s)
+    {
+        sheep.Remove(s);
+    }
+
     public bool KillClosest(Vector3 pos)
     {
         // Max distance of closest sheep
@@ -103,13 +109,12 @@ public class SheepManager : MonoBehaviour
         // Kill closes sheep
         if (closest != null)
         {
-            sheep.Remove(closest);
             closest.Kill();
+
             // Endgame when all sheeps are gone
             if (sheep.Count == 0)
-            {
                 EndGame();
-            }
+
             return true;
         }
 
@@ -118,20 +123,23 @@ public class SheepManager : MonoBehaviour
 
     public void FinishSheep(SheepController s)
     {
-        sheep.Remove(s);
+        OnKillSheep(s);
         finishedSheep++;
-        Debug.Log("A sheep reached the goal.");
-        
+        SpawnPopup(s.transform.position, "+1");
+
         // Endgame when all sheeps are gone
         if (sheep.Count == 0)
-        {
             EndGame();
-        }
     }
 
     private void EndGame()
     {
         Debug.Log("End, Finished sheep: " + finishedSheep);
+    }
+
+    public void SpawnPopup(Vector3 pos, string text)
+    {
+        Instantiate(popupPrefab, pos + Vector3.up, Quaternion.identity).GetComponent<TextMesh>().text = text;
     }
 
     private void OnDrawGizmos()

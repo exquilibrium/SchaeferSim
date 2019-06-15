@@ -15,10 +15,13 @@ public class PlayerController : MonoBehaviour
     public int controller;
 
     private NavMeshAgent agent;
+    private Animator anim;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
+
         pileText.text = "" + piles;
     }
 
@@ -42,6 +45,7 @@ public class PlayerController : MonoBehaviour
                 piles--;
                 pileText.text = "" + piles;
             }
+            SheepManager.instance.SpawnPopup(transform.position, "Piles x" + piles);
         }
         if (Input.GetButtonDown("Bark" + controller))
         {
@@ -53,6 +57,12 @@ public class PlayerController : MonoBehaviour
             // Kill closest sheep if possible
             if (SheepManager.instance.KillClosest(transform.position))
             {
+                if (piles < 3)
+                {
+                    piles++;
+                    pileText.text = "" + piles;
+                    SheepManager.instance.SpawnPopup(transform.position, "Piles x" + piles);
+                }
                 piles = Mathf.Min(3, piles + pilesPerKill);
                 pileText.text = "" + piles;
             }
