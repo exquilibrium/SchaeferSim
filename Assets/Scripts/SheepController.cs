@@ -133,7 +133,6 @@ public class SheepController : MonoBehaviour
         }
         else if (state == State.SICK)
         {
-            SheepManager.instance.InfectClosest(transform.position);
             indicatorMat.color = new Color(0.5F, 0, 0.5F);
         }
         else if (state == State.LOVE)
