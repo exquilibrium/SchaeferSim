@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +8,7 @@ public class SheepManager : MonoBehaviour
 
     public GameObject sheepPrefab;
     public GameObject popupPrefab;
+
     public int spawnCount;
 
     public float infectDistance;
@@ -121,22 +122,29 @@ public class SheepManager : MonoBehaviour
         return false;
     }
 
-    public bool KillClosest(Vector3 pos)
+    public SheepController FindClosest(Vector3 pos, float maxDist, SheepController ignore = null)
     {
         // Max distance of closest sheep
-        float closestDst = 100;
+        float closestDst = maxDist * maxDist;
         SheepController closest = null;
 
         // Find closest sheep to kill
         foreach (SheepController s in sheep)
         {
             float dist = (s.transform.position - pos).sqrMagnitude;
-            if (dist < killDistance * killDistance && (closest == null || dist < closestDst))
+            if (s != ignore && dist <= closestDst)
             {
                 closestDst = dist;
                 closest = s;
             }
         }
+
+        return closest;
+    }
+
+    public bool KillClosest(Vector3 pos)
+    {
+        SheepController closest = FindClosest(pos, infectDistance);
 
         // Kill closes sheep
         if (closest != null)
@@ -171,7 +179,7 @@ public class SheepManager : MonoBehaviour
 
     public void SpawnPopup(Vector3 pos, string text)
     {
-        Instantiate(popupPrefab, pos + Vector3.up, Quaternion.identity).GetComponent<TextMesh>().text = text;
+        Instantiate(popupPrefab, pos + Vector3.up, popupPrefab.transform.rotation).GetComponent<TextMesh>().text = text;
     }
 
     private void OnDrawGizmos()
