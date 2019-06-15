@@ -18,12 +18,8 @@ public class SheepController : MonoBehaviour
     public State state = State.ALIVE;
     public float minSpeed, maxSpeed;
     public float minPathTime, maxPathTime;
-<<<<<<< HEAD
-    public float minSleepWaitTime, maxSleepTime;
     public float minSickTime;
-=======
     public float minSleepWaitTime, maxSleepWaitTime, maxSleepTime;
->>>>>>> fb11eda96a08be0075ff21e3e0b1807756ac3f40
     public float pathTargetRange;
     public int minFollowChance, maxFollowChance;
     public int wanderOffChance;
@@ -35,14 +31,10 @@ public class SheepController : MonoBehaviour
     private SheepController follow;
     private float pathTime;
     private float speed;
-<<<<<<< HEAD
-    private float sleepTimer;
     private float sickTimer;
-    public int maxPanicCounter;
-=======
     private float sleepWaitTime, sleepTimer;
->>>>>>> fb11eda96a08be0075ff21e3e0b1807756ac3f40
     private int followChance;
+    public int maxPanicCounter;
 
     private float panic;
     private float floatOffset, rotOffset;
