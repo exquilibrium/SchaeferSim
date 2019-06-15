@@ -95,8 +95,7 @@ public class SheepController : MonoBehaviour
         panic = panic - Time.deltaTime;
 
         if (Time.time > pathTime)
-            SetTarget();
-            // SetTargetAvgPos();
+                SetTarget();
 
         // Only follow alive sheeps, else follow self
         if (follow != this)
@@ -115,20 +114,6 @@ public class SheepController : MonoBehaviour
             agent.speed = speed * Random.Range(1.5F, 2F);
             pathTime = Time.time + 2;
         }
-    }
-
-    void SetTargetAvgPos()
-    {
-        // Sets sheep target position as random area near middlepoint of all sheeps
-        if (Random.Range(0, followChance) > followChance / 4)
-        {
-            agent.destination = SheepManager.instance.CalcAvgPos() + new Vector3(Random.Range(-3F, 3F), 0, Random.Range(-3F, 3F));
-        } else
-        {
-            agent.destination = transform.position + new Vector3(Random.Range(-10F, 10F), 0, Random.Range(-10F, 10F));
-        }
-        agent.speed = speed;
-        pathTime = Time.time + Random.Range(minPathTime, maxPathTime);
     }
 
     void SetTarget()

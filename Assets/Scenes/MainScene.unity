@@ -557,8 +557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sheepPrefab: {fileID: 7615126326297486947, guid: d52cc0e177cdea2409bb650745596dfe,
     type: 3}
-  popupPrefab: {fileID: 5816420198342152865, guid: ef34ebbb92a1f5b4fa8ed65a7da3d13a,
-    type: 3}
+  popupPrefab: {fileID: 0}
   spawnCount: 20
   killDistance: 3
   barkDistance: 7.5
