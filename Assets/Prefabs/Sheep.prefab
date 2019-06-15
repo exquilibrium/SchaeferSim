@@ -224,6 +224,7 @@ MonoBehaviour:
   maxPathTime: 6
   minSleepWaitTime: 5
   maxSleepTime: 10
+  minSickTime: 3
   pathTargetRange: 7.5
   minFollowChance: 2
   maxFollowChance: 8
