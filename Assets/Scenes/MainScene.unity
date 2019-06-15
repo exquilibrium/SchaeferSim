@@ -1036,26 +1036,6 @@ PrefabInstance:
       propertyPath: pileText
       value: 
       objectReference: {fileID: 471275600}
-    - target: {fileID: 2072454442672504952, guid: 8568cd79fef815f4d960a76ea3f8c78a,
-        type: 3}
-      propertyPath: pilesPerKill
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2072454442672504959, guid: 8568cd79fef815f4d960a76ea3f8c78a,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2072454442672504959, guid: 8568cd79fef815f4d960a76ea3f8c78a,
-        type: 3}
-      propertyPath: m_ObstacleAvoidanceType
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2072454442672504959, guid: 8568cd79fef815f4d960a76ea3f8c78a,
-        type: 3}
-      propertyPath: avoidancePriority
-      value: 99
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8568cd79fef815f4d960a76ea3f8c78a, type: 3}
 --- !u!1001 &5256563072654547412
@@ -1125,11 +1105,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5256563073987620124, guid: 16c973f1de87ebf4ca9b0d868b48329e,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 5399730709013607372, guid: 16c973f1de87ebf4ca9b0d868b48329e,
         type: 3}
       propertyPath: goal

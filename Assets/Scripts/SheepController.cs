@@ -10,7 +10,8 @@ public class SheepController : MonoBehaviour
         DEAD,
         ALIVE,
         SLEEPING,
-        SICK
+        SICK,
+        LOVE,
     };
 
     public Transform indicator;
@@ -23,6 +24,7 @@ public class SheepController : MonoBehaviour
     public float pathTargetRange;
     public int minFollowChance, maxFollowChance;
     public int wanderOffChance;
+    public int loveChance;
 
     public string[] mehs;
 
@@ -101,7 +103,7 @@ public class SheepController : MonoBehaviour
                 return;
         }
 
-        if (panic < -5)
+        if (panic < -5 && state == State.ALIVE)
         {
             sleepTimer += Time.deltaTime;
             if (sleepTimer > sleepWaitTime)
@@ -133,6 +135,13 @@ public class SheepController : MonoBehaviour
             SheepManager.instance.InfectClosest(transform.position);
             indicatorMat.color = new Color(0.5F, 0, 0.5F);
         }
+        else if (state == State.LOVE)
+        {
+            indicatorMat.color = new Color(1.0F, 0.4F, 0.6F);
+
+            if (panic > 0)
+                state = State.ALIVE;
+        }
 
         if (Time.time > pathTime || panic > 0 && (agent.destination - transform.position).sqrMagnitude < 1)
             SetTarget();
@@ -140,8 +149,15 @@ public class SheepController : MonoBehaviour
         // Only follow alive sheeps, else follow self
         if (follow != this)
         {
-            if (follow.state == State.DEAD)
+            if (follow.state != State.ALIVE)
+            {
                 follow = this;
+                if (state == State.LOVE)
+                {
+                    Kill();
+                    return;
+                }
+            }
             else
                 agent.destination = follow.transform.position;
         }
@@ -153,14 +169,23 @@ public class SheepController : MonoBehaviour
             agent.destination = transform.position + avoidVec.normalized * SheepManager.instance.pileAvoidDist;
             agent.speed = speed * Random.Range(1.5F, 2F);
             pathTime = Time.time + 2;
+            panic += 0.5F * Time.deltaTime;
         }
 
-        if (Random.Range(0, 1000) == 0)
+        if (state == State.LOVE)
+        {
+             if (Random.Range(0, 500) == 0)
+                SheepManager.instance.SpawnPopup(transform.position, mehs[Random.Range(0, mehs.Length)] + " ❤️");
+        }
+        else if (Random.Range(0, 1000) == 0)
             SheepManager.instance.SpawnPopup(transform.position, mehs[Random.Range(0, mehs.Length)]);
     }
 
     void SetTarget()
     {
+        if (state == State.LOVE)
+            state = State.ALIVE;
+
         // Sets sheep target as rand
         if (panic > 1 || Random.Range(0, followChance) != 0 || (follow = SheepManager.instance.GetSheepToFollow(this)) == this)
         {
@@ -170,13 +195,16 @@ public class SheepController : MonoBehaviour
 
             else
                 agent.destination = transform.position + new Vector3(Random.Range(-pathTargetRange, pathTargetRange), 0, Random.Range(-pathTargetRange, pathTargetRange));
-        } 
+        }
+
+        if (follow != this && panic < -2 && Random.Range(0, loveChance) == 0)
+            state = State.LOVE;
 
         if (follow.follow == this)
             follow = this;
 
         agent.speed = speed + Mathf.Max(0, panic);
-        pathTime = Time.time + Random.Range(minPathTime, maxPathTime) / Mathf.Max(1, panic);
+        pathTime = Time.time + (state == State.LOVE ? 5 : 1) * Random.Range(minPathTime, maxPathTime) / Mathf.Max(1, panic);
     }
 
     public void Flee(Vector3 pos, float dist, float time)
@@ -211,7 +239,6 @@ public class SheepController : MonoBehaviour
         {
             maxPanicCounter += 1;
             state = State.SICK;
-            indicatorMat.color = new Color(0.5F, 0.5F, 0);
         }
     }
 
