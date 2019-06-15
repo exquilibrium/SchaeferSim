@@ -419,9 +419,6 @@ MonoBehaviour:
   - Meh.
   - MEH!
   - Meh
-<<<<<<< HEAD
-  maxPanicCounter: 3
-=======
   panicMehs:
   - Meeeeh?!
   - MEE-EEEEEH!
@@ -434,7 +431,6 @@ MonoBehaviour:
   - MEEEH?!
   - M-MEEEH?!
   maxPanicCounter: 0
->>>>>>> df5f772b7ab6005fb9f78cf4d64213345043e861
 --- !u!195 &484398054
 NavMeshAgent:
   m_ObjectHideFlags: 0
