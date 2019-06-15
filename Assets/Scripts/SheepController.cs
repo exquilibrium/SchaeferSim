@@ -131,7 +131,7 @@ public class SheepController : MonoBehaviour
         else if (state == State.SICK)
         {
             SheepManager.instance.InfectClosest(transform.position);
-            indicatorMat.color = new Color(0, 0, 0);
+            indicatorMat.color = new Color(0.5F, 0, 0.5F);
         }
 
         if (Time.time > pathTime || panic > 0 && (agent.destination - transform.position).sqrMagnitude < 1)

@@ -36,7 +36,7 @@ public class FollowPlayer : MonoBehaviour
         else
         {
             Vector3 target = (player1.position + player2.position) / 2F;
-            dist = distance + (player1.position - player2.position).magnitude * 0.5F;
+            dist = distance + (player1.position - player2.position).magnitude * 0.75F;
             transform.position = Vector3.SmoothDamp(transform.position, target + new Vector3(0, dist * 0.75F, -dist), ref velocity, smoothTime);
             transform.LookAt(target);
         }
