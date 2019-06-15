@@ -17,6 +17,7 @@ public class SheepController : MonoBehaviour
     public Transform indicator;
     public ParticleSystem heartSystem;
     public GameObject deathPrefab;
+    public Material blackMaterial;
 
     public State state = State.ALIVE;
     public float minSpeed, maxSpeed;
@@ -52,6 +53,9 @@ public class SheepController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         indicatorMat = indicator.GetComponent<MeshRenderer>().material;
+
+        if (Random.Range(0, 5) == 0)
+            GetComponentInChildren<MeshRenderer>().material = blackMaterial;
 
         speed = Random.Range(minSpeed, maxSpeed);
         followChance = Random.Range(minFollowChance, maxFollowChance);

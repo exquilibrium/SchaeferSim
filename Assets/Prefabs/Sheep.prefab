@@ -9929,6 +9929,7 @@ MonoBehaviour:
   heartSystem: {fileID: 7166181277947983932}
   deathPrefab: {fileID: 7309478555588798196, guid: a6c5e44c4ca38ca43ab249a5d3399e54,
     type: 3}
+  blackMaterial: {fileID: 2100000, guid: 09133ec17573e0144a95d03443c4f9e6, type: 2}
   state: 1
   minSpeed: 5
   maxSpeed: 10
