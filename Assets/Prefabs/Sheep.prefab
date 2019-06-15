@@ -9935,6 +9935,7 @@ MonoBehaviour:
   minPathTime: 2
   maxPathTime: 6
   minSickTime: 3
+  maxInfecTime: 5
   minSleepWaitTime: 10
   maxSleepWaitTime: 60
   maxSleepTime: 10

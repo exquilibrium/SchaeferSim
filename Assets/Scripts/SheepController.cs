@@ -22,6 +22,7 @@ public class SheepController : MonoBehaviour
     public float minSpeed, maxSpeed;
     public float minPathTime, maxPathTime;
     public float minSickTime;
+    public float maxInfecTime;
     public float minSleepWaitTime, maxSleepWaitTime, maxSleepTime;
     public float pathTargetRange;
     public int minFollowChance, maxFollowChance;
@@ -37,6 +38,7 @@ public class SheepController : MonoBehaviour
     private float pathTime;
     private float speed;
     private float sickTimer;
+    private float infecTimer;
     private float sleepWaitTime, sleepTimer;
     private int followChance;
     public int maxPanicCounter;
@@ -76,7 +78,7 @@ public class SheepController : MonoBehaviour
             return;
         }
 
-        if (panic > 1)
+        if (panic > 3)
         {
             sickTimer += Time.deltaTime;
             if (sickTimer > minSickTime)
@@ -135,6 +137,14 @@ public class SheepController : MonoBehaviour
         }
         else if (state == State.SICK)
         {
+            infecTimer += Time.deltaTime;
+            if (infecTimer > maxInfecTime)
+            {
+                infecTimer = 0;
+                if (maxPanicCounter > 3 && Random.Range(0, 4) == 0) { 
+                    SheepManager.instance.InfectClosest(transform.position, this);
+                }
+            }
             indicatorMat.color = new Color(0.5F, 0, 0.5F);
         }
         else if (state == State.LOVE)

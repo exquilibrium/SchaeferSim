@@ -94,6 +94,22 @@ public class SheepManager : MonoBehaviour
         sheep.Remove(s);
     }
 
+    public bool InfectClosest(Vector3 pos, SheepController ignore)
+    {
+        // Find closest sheep to infect
+        SheepController closest = FindClosest(pos, 10, ignore);
+
+        // Kill closes sheep
+        if (closest != null)
+        {
+            closest.maxPanicCounter += 1;
+            closest.state = SheepController.State.SICK;
+            return true;
+        }
+
+        return false;
+    }
+
     public SheepController FindClosest(Vector3 pos, float maxDist, SheepController ignore = null)
     {
         // Max distance of closest sheep
