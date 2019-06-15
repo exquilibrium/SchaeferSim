@@ -413,6 +413,7 @@ MonoBehaviour:
   minPathTime: 2
   maxPathTime: 6
   minSickTime: 3
+  maxInfecTime: 5
   minSleepWaitTime: 10
   maxSleepWaitTime: 60
   maxSleepTime: 10
@@ -431,7 +432,7 @@ MonoBehaviour:
   - Meh.
   - MEH!
   - Meh
-  maxPanicCounter: 0
+  maxPanicCounter: 3
 --- !u!195 &484398054
 NavMeshAgent:
   m_ObjectHideFlags: 0
