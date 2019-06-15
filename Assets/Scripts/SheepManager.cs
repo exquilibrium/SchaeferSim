@@ -165,7 +165,7 @@ public class SheepManager : MonoBehaviour
 
     public void SpawnPopup(Vector3 pos, string text)
     {
-        Instantiate(popupPrefab, pos + Vector3.up, popupPrefab.transform.rotation).GetComponent<TextMesh>().text = text;
+        Instantiate(popupPrefab, pos + Vector3.up * 2, popupPrefab.transform.rotation).GetComponent<TextMesh>().text = text;
     }
 
     private void OnDrawGizmos()
