@@ -17,17 +17,19 @@ public class SheepController : MonoBehaviour
     public State state = State.ALIVE;
     public float minSpeed, maxSpeed;
     public float minPathTime, maxPathTime;
-    public float minSleepWaitTime, maxSleepTime;
+    public float minSleepWaitTime, maxSleepWaitTime, maxSleepTime;
     public float pathTargetRange;
     public int minFollowChance, maxFollowChance;
     public int wanderOffChance;
+
+    public string[] mehs;
 
     private NavMeshAgent agent;
     private Animator anim;
     private SheepController follow;
     private float pathTime;
     private float speed;
-    private float sleepTimer;
+    private float sleepWaitTime, sleepTimer;
     private int followChance;
 
     private float panic;
@@ -48,6 +50,7 @@ public class SheepController : MonoBehaviour
         follow = this;
         floatOffset = Random.Range(0, Mathf.PI * 2);
         rotOffset = Random.Range(0, 360);
+        sleepWaitTime = Random.Range(minSleepWaitTime, maxSleepWaitTime);
     }
 
     void Update()
@@ -82,20 +85,27 @@ public class SheepController : MonoBehaviour
         if (panic < -5)
         {
             sleepTimer += Time.deltaTime;
-            if (sleepTimer > minSleepWaitTime)
+            if (sleepTimer > sleepWaitTime)
             {
+                SheepManager.instance.SpawnPopup(transform.position, "Zzz");
+
                 sleepTimer = Random.Range(maxSleepTime * 0.5F, maxSleepTime);
                 state = State.SLEEPING;
                 indicatorMat.color = new Color(0, 0, 1);
+
+                follow = this;
+                pathTime = 0;
+                agent.destination = transform.position;
+                sleepWaitTime = Random.Range(minSleepWaitTime, maxSleepWaitTime);
+                return;
             }
-            return;
         }
 
-        indicatorMat.color = new Color(panic, 1 - (panic - 1), 0);
+        indicatorMat.color = new Color(Mathf.Clamp01(panic), Mathf.Clamp01(1 - (panic - 1)), 0);
         panic = panic - Time.deltaTime;
 
-        if (Time.time > pathTime)
-                SetTarget();
+        if (Time.time > pathTime || panic > 0 && (agent.destination - transform.position).sqrMagnitude < 1)
+            SetTarget();
 
         // Only follow alive sheeps, else follow self
         if (follow != this)
@@ -114,12 +124,15 @@ public class SheepController : MonoBehaviour
             agent.speed = speed * Random.Range(1.5F, 2F);
             pathTime = Time.time + 2;
         }
+
+        if (Random.Range(0, 1000) == 0)
+            SheepManager.instance.SpawnPopup(transform.position, mehs[Random.Range(0, mehs.Length)]);
     }
 
     void SetTarget()
     {
         // Sets sheep target as rand
-        if (Random.Range(0, followChance) != 0 || (follow = SheepManager.instance.GetSheepToFollow(this)) == this)
+        if (panic > 1 || Random.Range(0, followChance) != 0 || (follow = SheepManager.instance.GetSheepToFollow(this)) == this)
         {
             follow = this;
             if (Random.Range(0, wanderOffChance) == 0)
@@ -132,8 +145,8 @@ public class SheepController : MonoBehaviour
         if (follow.follow == this)
             follow = this;
 
-        agent.speed = speed;
-        pathTime = Time.time + Random.Range(minPathTime, maxPathTime);
+        agent.speed = speed + Mathf.Max(0, panic);
+        pathTime = Time.time + Random.Range(minPathTime, maxPathTime) / Mathf.Max(1, panic);
     }
 
     public void Flee(Vector3 pos, float dist, float time)
@@ -145,13 +158,20 @@ public class SheepController : MonoBehaviour
         {
             state = State.ALIVE;
             panic = Mathf.Max(0, panic) + 2;
+            if (Random.Range(0, 2) == 0)
+                SheepManager.instance.SpawnPopup(transform.position, "Meeeeeeh!");
         }
         else
+        {
+            if (panic > 1 && Random.Range(0, 3) == 0)
+                SheepManager.instance.SpawnPopup(transform.position, "Meeeh?!");
             panic = Mathf.Max(0, panic) + 1;
+        }
 
         agent.destination = transform.position + (transform.position - pos).normalized * dist;
-        agent.speed = Mathf.Max(agent.speed, speed * Random.Range(1.25F + panic, 1.5F + panic));
+        agent.speed = Mathf.Max(agent.speed, speed * Random.Range(1.25F + Mathf.Max(0, panic), 1.5F + panic + Mathf.Max(0, panic)));
         pathTime = Time.time + time;
+        sleepTimer = 0;
         follow = this;
     }
 

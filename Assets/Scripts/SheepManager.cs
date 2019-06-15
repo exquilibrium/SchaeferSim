@@ -79,8 +79,12 @@ public class SheepManager : MonoBehaviour
     {
         // Sheeps flee from player
         foreach (SheepController s in sheep)
-            if ((s.transform.position - pos).sqrMagnitude < barkDistance * barkDistance)
-                s.Flee(pos, Random.Range(minBarkFleeDist, maxBarkFleeDist), Random.Range(minBarkFleeTime, maxBarkFleeTime));
+        {
+            float dist = (s.transform.position - pos).sqrMagnitude;
+            if (dist < barkDistance * barkDistance)
+                s.Flee(pos, Random.Range(minBarkFleeDist, maxBarkFleeDist) - 0.5F * Mathf.Sqrt(dist), Random.Range(minBarkFleeTime, maxBarkFleeTime));
+
+        }
     }
 
     public void OnKillSheep(SheepController s)
