@@ -4850,6 +4850,7 @@ MonoBehaviour:
   barkParticles: {fileID: 1644593997}
   pileText: {fileID: 0}
   piles: 3
+  pilesPerKill: 0
   controller: 0
 --- !u!195 &2072454442672504959
 NavMeshAgent:

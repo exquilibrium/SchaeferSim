@@ -16,6 +16,7 @@ public class PopupTextController : MonoBehaviour
         tMesh = GetComponent<TextMesh>();
         col1 = tMesh.color;
         col2 = new Color(col1.r, col1.g, col1.b, 0.0F);
+        transform.localScale *= Random.Range(0.5F, 1.2F);
     }
 
     void Update()

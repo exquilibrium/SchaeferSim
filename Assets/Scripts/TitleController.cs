@@ -14,8 +14,10 @@ public class TitleController : MonoBehaviour
         cam.titleScreen = true;
     }
 
-    void Update()
+    void LateUpdate()
     {
+        transform.rotation = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0);
+
         // Deactivate title on input
         if (Input.anyKeyDown)
         {

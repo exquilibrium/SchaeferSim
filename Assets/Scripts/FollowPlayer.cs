@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
-    public Transform player;
+    public Transform player1;
+    public Transform player2;
+
     public float distance;
     public float smoothTime;
     public float titleRotateSpeed;
@@ -12,11 +14,13 @@ public class FollowPlayer : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
 
     public bool titleScreen;
+    private float dist;
 
     void Start()
     {
         // Set default position to player + offset
-        transform.position = player.position + new Vector3(0, distance, -distance);
+        dist = distance;
+        transform.position = player1.position + new Vector3(0, dist * 0.75F, -dist);
     }
 
     void Update()
@@ -25,14 +29,16 @@ public class FollowPlayer : MonoBehaviour
         if (titleScreen)
         {
             float rot = Time.time * titleRotateSpeed - Mathf.PI * 0.5F;
-            transform.position = player.position + new Vector3(Mathf.Cos(rot), 0.75F, Mathf.Sin(rot)) * distance;
-            transform.LookAt(player.position);
+            transform.position = player1.position + new Vector3(Mathf.Cos(rot), 0.75F, Mathf.Sin(rot)) * dist;
+            transform.LookAt(player1.position);
         }
         // Player follow with smoothing
         else
         {
-            transform.position = Vector3.SmoothDamp(transform.position, player.position + new Vector3(0, distance, -distance), ref velocity, smoothTime);
-            transform.LookAt(new Vector3(transform.position.x, player.position.y, player.position.z));
+            Vector3 target = (player1.position + player2.position) / 2F;
+            dist = distance + (player1.position - player2.position).magnitude * 0.5F;
+            transform.position = Vector3.SmoothDamp(transform.position, target + new Vector3(0, dist * 0.75F, -dist), ref velocity, smoothTime);
+            transform.LookAt(target);
         }
 
     }

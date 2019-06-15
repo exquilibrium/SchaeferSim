@@ -557,7 +557,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sheepPrefab: {fileID: 7615126326297486947, guid: d52cc0e177cdea2409bb650745596dfe,
     type: 3}
-  popupPrefab: {fileID: 0}
+  popupPrefab: {fileID: 5816420198342152865, guid: ef34ebbb92a1f5b4fa8ed65a7da3d13a,
+    type: 3}
   spawnCount: 20
   infectDistance: 3
   killDistance: 3
@@ -595,7 +596,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524471906}
-  m_Text: Sheep Simulator
+  m_Text: Shepherd Simulator
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -654,7 +655,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524471906}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 7, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -769,9 +770,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430b6563cfb3f7745bc2318ba77e3834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 2024720861}
+  player1: {fileID: 2024720861}
+  player2: {fileID: 2024720861}
   distance: 20
-  smoothTime: 0.3
+  smoothTime: 0.6
   titleRotateSpeed: 0.5
   titleScreen: 0
 --- !u!1 &1753744598
@@ -917,6 +919,21 @@ PrefabInstance:
         type: 3}
       propertyPath: pilesPerKill
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072454442672504959, guid: 8568cd79fef815f4d960a76ea3f8c78a,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072454442672504959, guid: 8568cd79fef815f4d960a76ea3f8c78a,
+        type: 3}
+      propertyPath: m_ObstacleAvoidanceType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072454442672504959, guid: 8568cd79fef815f4d960a76ea3f8c78a,
+        type: 3}
+      propertyPath: avoidancePriority
+      value: 99
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8568cd79fef815f4d960a76ea3f8c78a, type: 3}

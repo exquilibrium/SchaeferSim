@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
         {
             barkParticles.Play();
             SheepManager.instance.OnBark(transform.position);
+            SheepManager.instance.SpawnPopup(transform.position, "Wuff");
         }
         if (Input.GetButtonDown("Kill" + controller))
         {
@@ -68,7 +69,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         // Player movement
-        agent.destination = transform.position + new Vector3(Input.GetAxis("Horizontal" + controller), 0, Input.GetAxis("Vertical" + controller));
+        agent.destination = transform.position + 0.5F * new Vector3(Input.GetAxis("Horizontal" + controller), 0, Input.GetAxis("Vertical" + controller));
     }
 
     // Debug
