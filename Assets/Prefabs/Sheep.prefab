@@ -402,8 +402,8 @@ MonoBehaviour:
   minSleepWaitTime: 10
   maxSleepWaitTime: 60
   maxSleepTime: 10
-  pathTargetRange: 7.5
-  minFollowChance: 2
+  pathTargetRange: 5
+  minFollowChance: 1
   maxFollowChance: 8
   wanderOffChance: 100
   loveChance: 20
@@ -418,6 +418,17 @@ MonoBehaviour:
   - Meh.
   - MEH!
   - Meh
+  panicMehs:
+  - Meeeeh?!
+  - MEE-EEEEEH!
+  - Mehhh!!
+  - MEH!!!!
+  - Meh~~~!
+  - Meh..MEEH!
+  - Meh!??
+  - Meeeh!??
+  - MEEEH?!
+  - M-MEEEH?!
   maxPanicCounter: 0
 --- !u!195 &484398054
 NavMeshAgent:

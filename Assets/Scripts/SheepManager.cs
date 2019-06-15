@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +8,7 @@ public class SheepManager : MonoBehaviour
 
     public GameObject sheepPrefab;
     public GameObject popupPrefab;
+
     public int spawnCount;
 
     public float infectDistance;
@@ -93,22 +94,29 @@ public class SheepManager : MonoBehaviour
         sheep.Remove(s);
     }
 
-    public bool InfectClosest(Vector3 pos)
+    public SheepController FindClosest(Vector3 pos, float maxDist)
     {
         // Max distance of closest sheep
-        float closestDst = 100;
+        float closestDst = maxDist * maxDist;
         SheepController closest = null;
 
-        // Find closest sheep to infect
+        // Find closest sheep to kill
         foreach (SheepController s in sheep)
         {
             float dist = (s.transform.position - pos).sqrMagnitude;
-            if (dist < infectDistance * infectDistance && (closest == null || dist < closestDst))
+            if (dist <= closestDst)
             {
                 closestDst = dist;
                 closest = s;
             }
         }
+
+        return closest;
+    }
+
+    public bool InfectClosest(Vector3 pos)
+    {
+        SheepController closest = FindClosest(pos, infectDistance);
 
         // Infect closes sheep
         if (closest != null)
@@ -123,20 +131,7 @@ public class SheepManager : MonoBehaviour
 
     public bool KillClosest(Vector3 pos)
     {
-        // Max distance of closest sheep
-        float closestDst = 100;
-        SheepController closest = null;
-
-        // Find closest sheep to kill
-        foreach (SheepController s in sheep)
-        {
-            float dist = (s.transform.position - pos).sqrMagnitude;
-            if (dist < killDistance * killDistance && (closest == null || dist < closestDst))
-            {
-                closestDst = dist;
-                closest = s;
-            }
-        }
+        SheepController closest = FindClosest(pos, infectDistance);
 
         // Kill closes sheep
         if (closest != null)
@@ -171,7 +166,7 @@ public class SheepManager : MonoBehaviour
 
     public void SpawnPopup(Vector3 pos, string text)
     {
-        Instantiate(popupPrefab, pos + Vector3.up, Quaternion.identity).GetComponent<TextMesh>().text = text;
+        Instantiate(popupPrefab, pos + Vector3.up, popupPrefab.transform.rotation).GetComponent<TextMesh>().text = text;
     }
 
     private void OnDrawGizmos()

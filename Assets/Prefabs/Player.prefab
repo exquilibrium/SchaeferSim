@@ -4852,6 +4852,15 @@ MonoBehaviour:
   piles: 3
   pilesPerKill: 1
   controller: 0
+  wuffs:
+  - Wuff!
+  - Woof!
+  - Arf!
+  - Wouf!
+  - WOOF!
+  - Wof!
+  - Woohf!
+  - Wuuf!
 --- !u!195 &2072454442672504959
 NavMeshAgent:
   m_ObjectHideFlags: 0

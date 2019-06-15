@@ -27,6 +27,7 @@ public class SheepController : MonoBehaviour
     public int loveChance;
 
     public string[] mehs;
+    public string[] panicMehs;
 
     private NavMeshAgent agent;
     private Animator anim;
@@ -151,12 +152,12 @@ public class SheepController : MonoBehaviour
         {
             if (follow.state != State.ALIVE)
             {
-                follow = this;
-                if (state == State.LOVE)
+                if (follow.state == State.DEAD && state == State.LOVE)
                 {
                     Kill();
                     return;
                 }
+                follow = this;
             }
             else
                 agent.destination = follow.transform.position;
@@ -217,12 +218,12 @@ public class SheepController : MonoBehaviour
             state = State.ALIVE;
             panic = Mathf.Max(0, panic) + 2;
             if (Random.Range(0, 2) == 0)
-                SheepManager.instance.SpawnPopup(transform.position, "Meeeeeeh!");
+                SheepManager.instance.SpawnPopup(transform.position, panicMehs[Random.Range(0, mehs.Length)]);
         }
         else
         {
             if (panic > 1 && Random.Range(0, 3) == 0)
-                SheepManager.instance.SpawnPopup(transform.position, "Meeeh?!");
+                SheepManager.instance.SpawnPopup(transform.position, panicMehs[Random.Range(0, mehs.Length)]);
             panic = Mathf.Max(0, panic) + 1;
         }
 
