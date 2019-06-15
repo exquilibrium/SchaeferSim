@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 mov = new Vector3(Input.GetAxis("Horizontal" + controller), 0, Input.GetAxis("Vertical" + controller));
         agent.destination = transform.position + 0.5F * mov.normalized * Mathf.Min(mov.magnitude, 1.0F);
+        //agent.Move(agent.speed * Time.deltaTime * mov.normalized * Mathf.Min(mov.magnitude, 1.0F));
     }
 
     // Debug

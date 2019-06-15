@@ -32,6 +32,7 @@ public class SheepController : MonoBehaviour
 
     public string[] mehs;
     public string[] panicMehs;
+    public string[] sleepyMehs;
 
     private NavMeshAgent agent;
     private Animator anim;
@@ -100,7 +101,7 @@ public class SheepController : MonoBehaviour
         if (state == State.SLEEPING)
         {
             if (Random.Range(0, 200) == 0)
-                SheepManager.instance.SpawnPopup(transform.position, "Zzz");
+                SheepManager.instance.SpawnPopup(transform.position, sleepyMehs[Random.Range(0, sleepyMehs.Length)]);
             sleepTimer -= Time.deltaTime;
             if (sleepTimer <= 0)
             {
@@ -117,7 +118,7 @@ public class SheepController : MonoBehaviour
             sleepTimer += Time.deltaTime;
             if (sleepTimer > sleepWaitTime)
             {
-                SheepManager.instance.SpawnPopup(transform.position, "Zzz");
+                SheepManager.instance.SpawnPopup(transform.position, sleepyMehs[Random.Range(0, sleepyMehs.Length)]);
 
                 sleepTimer = Random.Range(maxSleepTime * 0.5F, maxSleepTime);
                 state = State.SLEEPING;
