@@ -15,13 +15,11 @@ public class PlayerController : MonoBehaviour
     public bool control; // Deactivate for MainScreen
     public int tutorialState;
     public TextMesh playerText;
-    public Text WinScreen;
 
     public string[] wuffs;
     public AudioClip[] wuffSounds;
 
     public NavMeshAgent agent;
-    private bool boo;
     private Animator anim;
     private AudioSource sound;
 
@@ -30,10 +28,6 @@ public class PlayerController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         sound = GetComponent<AudioSource>();
-
-        boo = true;
-
-        WinScreen.text = "";
 
         if (controller == 0)
             playerText.text = "Press 'E' to start.";
@@ -52,10 +46,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        if (SheepManager.instance.GetSheepCount() == 0 && boo)
+        if (SheepManager.instance.GetSheepCount() == 0)
         {
-            boo = false;
-            WinScreen.text = "GOOD DOGGIE !";
+            playerText.transform.position += new Vector3(0, 5, 0);
+            playerText.text = "GOOD DOGGIE !";
         }
         if (control)
         {

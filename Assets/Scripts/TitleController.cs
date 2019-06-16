@@ -30,8 +30,8 @@ public class TitleController : MonoBehaviour
 
     void FixedUpdate()
     {
-        player1.GetComponent<PlayerController>().set(new Vector3(-10, 1 - 10));
-        player2.GetComponent<PlayerController>().set(new Vector3(-15, 1 - 10));
+        player1.GetComponent<PlayerController>().set(new Vector3(-35, 1, 40));
+        player2.GetComponent<PlayerController>().set(new Vector3(-37, 1, 35));
         if (Input.GetButtonDown("Bark" + 1))
         {
             // Switch Mode
