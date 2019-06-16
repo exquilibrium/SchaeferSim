@@ -22,13 +22,15 @@ public class TitleController : MonoBehaviour
         text = GetComponent<TextMesh>();
         cam.titleScreen = true;
         controller = 0;
-        player1.GetComponent<PlayerController>().enabled = false;
-        player2.GetComponent<PlayerController>().enabled = false;
+        player1.GetComponent<PlayerController>().control = false;
+        player2.GetComponent<PlayerController>().control = false;
         spotLight2.GetComponent<Light>().intensity = 1;
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        player1.GetComponent<PlayerController>().setAgentPos(new Vector3(-10, 1 - 10));
+        player2.GetComponent<PlayerController>().setAgentPos(new Vector3(-15, 1 - 10));
         if (Input.GetButtonDown("Bark" + 1))
         {
             // Switch Mode
@@ -47,8 +49,8 @@ public class TitleController : MonoBehaviour
         if (Input.GetButtonDown("Bark" + 0))
         {
             cam.titleScreen = false;
-            player1.GetComponent<PlayerController>().enabled = true;
-            player2.GetComponent<PlayerController>().enabled = true;
+            player1.GetComponent<PlayerController>().control = true;
+            player2.GetComponent<PlayerController>().control = true;
             cam.player2 = player2.transform;
             if (controller == 0)
             {

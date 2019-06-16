@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour
     public int piles;
     public int pilesPerKill;
     public int controller;
+    public bool control; // Deactivate for MainScreen
+    public bool tutorial;
+    private int tutorialsDone;
+    public TextMesh playerText;
 
     public string[] wuffs;
 
@@ -22,8 +26,9 @@ public class PlayerController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
-
         pileText.text = "" + piles;
+        if (tutorial)
+            playerText.text = "Tutorial: Press 'W/A/S/D' or 'ARROW -KEYS' to move.";
     }
 
     /*
@@ -36,44 +41,89 @@ public class PlayerController : MonoBehaviour
      */
     void Update()
     {
-        if (Input.GetButtonDown("DropPile" + controller))
+        if (control)
         {
-            if (piles > 0)
+            if (tutorial) { 
+            if (tutorialsDone == 4)
             {
-                Instantiate(pilePrefab, transform.position, transform.rotation, null);
-                SheepManager.instance.AddPile(transform.position);
-
-                piles--;
-                pileText.text = "" + piles;
+                tutorial = false;
+                playerText.text = "";
+                // Reset  level after tutorial
+                
             }
-            SheepManager.instance.SpawnPopup(transform.position, "Piles x" + piles);
-        }
-        if (Input.GetButtonDown("Bark" + controller))
-        {
-            barkParticles.Play();
-            barkLineParticles.Play();
-            SheepManager.instance.OnBark(transform.position);
-            SheepManager.instance.SpawnPopup(transform.position, wuffs[Random.Range(0, wuffs.Length)]);
-        }
-        if (Input.GetButtonDown("Kill" + controller))
-        {
-            // Kill closest sheep if possible
-            if (SheepManager.instance.KillClosest(transform.position))
+            if (tutorial && (Input.GetAxis("Horizontal" + controller) != 0 || Input.GetAxis("Vertical" + controller) != 0))
             {
-                if (piles < 3)
+                    if (tutorialsDone == 0)
+                    {
+                        playerText.text = "Press 'E' to bark.";
+                        tutorialsDone += 1;
+                    }
+            }
+            }
+            if (Input.GetButtonDown("DropPile" + controller))
+            {
+                if (tutorial)
                 {
-                    piles++;
-                    pileText.text = "" + piles;
-                    SheepManager.instance.SpawnPopup(transform.position, "Piles x" + piles);
+                    if (tutorialsDone == 2)
+                    {
+                        tutorialsDone += 1;
+                        playerText.text = "Press 'Q' to eat sheep (for shit)";
+                    }
                 }
-                piles = Mathf.Min(3, piles + pilesPerKill);
-                pileText.text = "" + piles;
-            }
-        }
+                if (piles > 0)
+                {
+                    Instantiate(pilePrefab, transform.position, transform.rotation, null);
+                    SheepManager.instance.AddPile(transform.position);
 
-        Vector3 mov = new Vector3(Input.GetAxis("Horizontal" + controller), 0, Input.GetAxis("Vertical" + controller));
-        agent.destination = transform.position + 0.5F * mov.normalized * Mathf.Min(mov.magnitude, 1.0F);
-        //agent.Move(agent.speed * Time.deltaTime * mov.normalized * Mathf.Min(mov.magnitude, 1.0F));
+                    piles--;
+                    pileText.text = "" + piles;
+                }
+                SheepManager.instance.SpawnPopup(transform.position, "Piles x" + piles);
+            }
+            if (Input.GetButtonDown("Bark" + controller))
+            {
+                if (tutorial)
+                {
+                    if (tutorialsDone == 1) tutorialsDone += 1;
+                    playerText.text = "Press 'space' to drop pile (of shit)";
+                }
+
+                barkParticles.Play();
+                barkLineParticles.Play();
+                SheepManager.instance.OnBark(transform.position);
+                SheepManager.instance.SpawnPopup(transform.position, wuffs[Random.Range(0, wuffs.Length)]);
+            }
+            if (Input.GetButtonDown("Kill" + controller))
+            {
+                if (tutorial)
+                {
+                    if (tutorialsDone == 3) tutorialsDone += 1;
+                    playerText.text = "Tutorial: end";  
+                }
+
+                // Kill closest sheep if possible
+                if (SheepManager.instance.KillClosest(transform.position))
+                {
+                    if (piles < 3)
+                    {
+                        piles++;
+                        pileText.text = "" + piles;
+                        SheepManager.instance.SpawnPopup(transform.position, "Piles x" + piles);
+                    }
+                    piles = Mathf.Min(3, piles + pilesPerKill);
+                    pileText.text = "" + piles;
+                }
+            }
+
+            Vector3 mov = new Vector3(Input.GetAxis("Horizontal" + controller), 0, Input.GetAxis("Vertical" + controller));
+            agent.destination = transform.position + 0.5F * mov.normalized * Mathf.Min(mov.magnitude, 1.0F);
+            //agent.Move(agent.speed * Time.deltaTime * mov.normalized * Mathf.Min(mov.magnitude, 1.0F));
+        }
+    }
+
+    public void setAgentPos(Vector3 pos)
+    {
+        agent.destination = pos;
     }
 
     // Debug
