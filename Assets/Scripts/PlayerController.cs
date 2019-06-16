@@ -13,8 +13,7 @@ public class PlayerController : MonoBehaviour
     public int pilesPerKill;
     public int controller;
     public bool control; // Deactivate for MainScreen
-    public bool tutorial;
-    private int tutorialsDone;
+    public int tutorialState;
     public TextMesh playerText;
 
     public string[] wuffs;
@@ -30,8 +29,10 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         sound = GetComponent<AudioSource>();
 
-        if (tutorial)
-            playerText.text = "Tutorial: Press 'W/A/S/D' or 'ARROW -KEYS' to move.";
+        if (controller == 0)
+            playerText.text = "Press 'E' to start.";
+        else
+            playerText.text = "Press 'P' to join.";
     }
 
     /*
@@ -46,33 +47,31 @@ public class PlayerController : MonoBehaviour
     {
         if (control)
         {
-            if (tutorial)
-            { 
-                if (tutorialsDone == 4)
+            if (tutorialState > -1)
+            {
+                if (tutorialState == 0)
                 {
-                    tutorial = false;
+                    tutorialState = 1;
+                    playerText.text = "Press 'W/A/S/D' or 'ARROW -KEYS' to move.";
+                } else if (tutorialState == 1 && (Input.GetAxis("Horizontal" + controller) != 0 || Input.GetAxis("Vertical" + controller) != 0))
+                {
+                    tutorialState = 2;
+                    playerText.text = "Press 'E' to bark.";    
+                }
+                if (tutorialState == 5 && Input.anyKey)
+                {
+                    tutorialState = -1;
                     playerText.text = "";
                     // Reset  level after tutorial
                 
                 }
-                if (tutorial && (Input.GetAxis("Horizontal" + controller) != 0 || Input.GetAxis("Vertical" + controller) != 0))
-                {
-                        if (tutorialsDone == 0)
-                        {
-                            playerText.text = "Press 'E' to bark.";
-                            tutorialsDone += 1;
-                        }
-                }
             }
             if (Input.GetButtonDown("DropPile" + controller))
             {
-                if (tutorial)
-                {
-                    if (tutorialsDone == 2)
-                    {
-                        tutorialsDone += 1;
-                        playerText.text = "Press 'Q' to eat sheep (for shit)";
-                    }
+                if (tutorialState == 3)
+                { 
+                    tutorialState = 4;
+                    playerText.text = "Press 'Q' to eat sheep (for shit)";
                 }
                 if (piles > 0)
                 {
@@ -86,9 +85,9 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetButtonDown("Bark" + controller))
             {
-                if (tutorial)
+                if (tutorialState == 2)
                 {
-                    if (tutorialsDone == 1) tutorialsDone += 1;
+                    tutorialState = 3;
                     playerText.text = "Press 'space' to drop pile (of shit)";
                 }
 
@@ -103,10 +102,10 @@ public class PlayerController : MonoBehaviour
             // Kill closest sheep if possible
             if (Input.GetButtonDown("Kill" + controller))
             {
-                if (tutorial)
+                if (tutorialState == 4)
                 {
-                    if (tutorialsDone == 3) tutorialsDone += 1;
-                    playerText.text = "Tutorial: end";
+                    tutorialState = 5;
+                    playerText.text = "Tutorial: Press anything to continue...";
                 }
 
                 // Kill closest sheep if possible
