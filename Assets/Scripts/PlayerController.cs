@@ -23,20 +23,11 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private AudioSource sound;
 
-    // Player Stats
-    private int sheepEaten;
-    private int pilesDropped;
-    private int barkAmount;
-
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         sound = GetComponent<AudioSource>();
-
-        sheepEaten = 0;
-        pilesDropped = 0;
-        barkAmount = 0;
 
         if (controller == 0)
             playerText.text = "Press 'E' to start.";
@@ -54,16 +45,6 @@ public class PlayerController : MonoBehaviour
      */
     void Update()
     {
-
-        if (SheepManager.instance.GetSheepCount() == 0)
-        {
-            playerText.transform.position += new Vector3(0, 5, 0);
-            playerText.text = "GOOD DOGGIE !\n" +
-                "Sheeps Eaten:" + sheepEaten + "\n" +
-                "Piles Dropped:" + pilesDropped + "\n" +
-                "Bark Amount:" + barkAmount + "\n" +
-                "Overall Score:" + (SheepManager.instance.GetSheepCount() * 10 - sheepEaten * 10 - pilesDropped * 3 - barkAmount);
-        }
         if (control)
         {
             if (tutorialState > -1)
@@ -106,7 +87,6 @@ public class PlayerController : MonoBehaviour
                     SheepManager.instance.AddPile(transform.position);
 
                     piles--;
-                    pilesDropped++;
                     pileText.text = "" + piles;
                 }
                 SheepManager.instance.SpawnPopup(transform.position, "Piles x" + piles);
@@ -122,7 +102,6 @@ public class PlayerController : MonoBehaviour
                         playerText.text = "Press 'L' to drop a pile.";
                 }
 
-                barkAmount++;
                 barkParticles.Play();
                 barkLineParticles.Play();
                 SheepManager.instance.OnBark(transform.position);
@@ -145,7 +124,6 @@ public class PlayerController : MonoBehaviour
                 {
                     if (piles < 3)
                     {
-                        sheepEaten++;
                         piles++;
                         pileText.text = "" + piles;
                         SheepManager.instance.SpawnPopup(transform.position, "Piles x" + piles);
@@ -156,9 +134,10 @@ public class PlayerController : MonoBehaviour
             }
 
             Vector3 mov = new Vector3(Input.GetAxis("Horizontal" + controller), 0, Input.GetAxis("Vertical" + controller));
-            agent.destination = transform.position + 0.5F * mov.normalized * Mathf.Min(mov.magnitude, 1.0F);
-            //agent.Move(agent.speed * Time.deltaTime * mov.normalized * Mathf.Min(mov.magnitude, 1.0F));
+            //agent.destination = transform.position + 0.5F * mov.normalized * Mathf.Min(mov.magnitude, 1.0F);
+            agent.Move(agent.speed * Time.deltaTime * mov.normalized * Mathf.Min(mov.magnitude, 1.0F));
             anim.SetFloat("velocity", agent.velocity.magnitude);
+            transform.LookAt(mov);
         }
 
     }

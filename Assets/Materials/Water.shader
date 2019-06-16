@@ -97,7 +97,7 @@
 				UNITY_APPLY_FOG(input.fogCoord, col);
 
 				//return col;
-				float4 back = tex2Dproj(_BackgroundTexture, input.grabPos + saturate(depth) * float4(cos(_Time.z + input.uv.x * 10) * 0.5, cos(_Time.z * 1.5 + input.uv.y * 10) * 0.5, 0, 0));
+				float4 back = tex2Dproj(_BackgroundTexture, input.grabPos + saturate(depth) * float4(cos(_Time.z + input.uv.x * 10) * 1, cos(_Time.z * 1.5 + input.uv.y * 10) * 1, 0, 0));
 				return (1 - col.a) * back + col.a * col;
 			}
 
