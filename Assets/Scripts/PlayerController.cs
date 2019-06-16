@@ -45,6 +45,12 @@ public class PlayerController : MonoBehaviour
      */
     void Update()
     {
+
+        if (SheepManager.instance.GetSheepCount() == 0)
+        {
+            playerText.transform.position += new Vector3(0, 5, 0);
+            playerText.text = "GOOD DOGGIE !";
+        }
         if (control)
         {
             if (tutorialState > -1)
