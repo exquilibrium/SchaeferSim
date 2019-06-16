@@ -23,11 +23,20 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private AudioSource sound;
 
+    // Player Stats
+    private int sheepEaten;
+    private int pilesDropped;
+    private int barkAmount;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         sound = GetComponent<AudioSource>();
+
+        sheepEaten = 0;
+        pilesDropped = 0;
+        barkAmount = 0;
 
         if (controller == 0)
             playerText.text = "Press 'E' to start.";
@@ -49,7 +58,11 @@ public class PlayerController : MonoBehaviour
         if (SheepManager.instance.GetSheepCount() == 0)
         {
             playerText.transform.position += new Vector3(0, 5, 0);
-            playerText.text = "GOOD DOGGIE !";
+            playerText.text = "GOOD DOGGIE !\n" +
+                "Sheeps Eaten:" + sheepEaten + "\n" +
+                "Piles Dropped:" + pilesDropped + "\n" +
+                "Bark Amount:" + barkAmount + "\n" +
+                "Overall Score:" + (SheepManager.instance.GetSheepCount() * 10 - sheepEaten * 10 - pilesDropped * 3 - barkAmount);
         }
         if (control)
         {
@@ -93,6 +106,7 @@ public class PlayerController : MonoBehaviour
                     SheepManager.instance.AddPile(transform.position);
 
                     piles--;
+                    pilesDropped++;
                     pileText.text = "" + piles;
                 }
                 SheepManager.instance.SpawnPopup(transform.position, "Piles x" + piles);
@@ -108,6 +122,7 @@ public class PlayerController : MonoBehaviour
                         playerText.text = "Press 'L' to drop a pile.";
                 }
 
+                barkAmount++;
                 barkParticles.Play();
                 barkLineParticles.Play();
                 SheepManager.instance.OnBark(transform.position);
@@ -130,6 +145,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (piles < 3)
                     {
+                        sheepEaten++;
                         piles++;
                         pileText.text = "" + piles;
                         SheepManager.instance.SpawnPopup(transform.position, "Piles x" + piles);
