@@ -14,14 +14,17 @@ public class PlayerController : MonoBehaviour
     public int controller;
 
     public string[] wuffs;
+    public AudioClip[] wuffSounds;
 
     private NavMeshAgent agent;
     private Animator anim;
+    private AudioSource sound;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+        sound = GetComponent<AudioSource>();
 
         pileText.text = "" + piles;
     }
@@ -54,6 +57,8 @@ public class PlayerController : MonoBehaviour
             barkLineParticles.Play();
             SheepManager.instance.OnBark(transform.position);
             SheepManager.instance.SpawnPopup(transform.position, wuffs[Random.Range(0, wuffs.Length)]);
+            sound.pitch = Random.Range(0.8F, 1.2F);
+            sound.PlayOneShot(wuffSounds[Random.Range(0, wuffSounds.Length)]);
         }
         if (Input.GetButtonDown("Kill" + controller))
         {
@@ -74,6 +79,8 @@ public class PlayerController : MonoBehaviour
         Vector3 mov = new Vector3(Input.GetAxis("Horizontal" + controller), 0, Input.GetAxis("Vertical" + controller));
         agent.destination = transform.position + 0.5F * mov.normalized * Mathf.Min(mov.magnitude, 1.0F);
         //agent.Move(agent.speed * Time.deltaTime * mov.normalized * Mathf.Min(mov.magnitude, 1.0F));
+
+        anim.SetFloat("velocity", agent.velocity.magnitude);
     }
 
     // Debug

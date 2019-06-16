@@ -33,9 +33,12 @@ public class SheepController : MonoBehaviour
     public string[] mehs;
     public string[] panicMehs;
     public string[] sleepyMehs;
+    public AudioClip[] mehSounds;
 
     private NavMeshAgent agent;
     private Animator anim;
+    private AudioSource sound;
+
     private SheepController follow;
     private float pathTime;
     private float speed;
@@ -48,11 +51,14 @@ public class SheepController : MonoBehaviour
     private float panic;
     private float floatOffset, rotOffset;
     private Material indicatorMat;
+    private bool avoidedLastF;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+        sound = GetComponent<AudioSource>();
+
         indicatorMat = indicator.GetComponent<MeshRenderer>().material;
 
         if (Random.Range(0, 5) == 0)
@@ -73,6 +79,7 @@ public class SheepController : MonoBehaviour
     {
         indicator.transform.localPosition = Vector3.up * (0.6F + 0.1F * Mathf.Cos(Time.time * 3 + floatOffset));
         indicator.transform.rotation = Quaternion.Euler(45, Time.time * 90 + rotOffset, 45);
+        anim.SetFloat("velocity", agent.velocity.magnitude);
 
         if (state == State.DEAD)
             return;
@@ -102,6 +109,7 @@ public class SheepController : MonoBehaviour
         {
             if (Random.Range(0, 200) == 0)
                 SheepManager.instance.SpawnPopup(transform.position, sleepyMehs[Random.Range(0, sleepyMehs.Length)]);
+
             sleepTimer -= Time.deltaTime;
             if (sleepTimer <= 0)
             {
@@ -122,7 +130,7 @@ public class SheepController : MonoBehaviour
 
                 sleepTimer = Random.Range(maxSleepTime * 0.5F, maxSleepTime);
                 state = State.SLEEPING;
-                indicatorMat.color = new Color(0, 0, 1);
+                indicatorMat.color = new Color(-0.2F, 0, 1);
                 follow = this;
                 pathTime = 0;
                 agent.destination = transform.position;
@@ -198,15 +206,32 @@ public class SheepController : MonoBehaviour
             agent.speed = speed * Random.Range(1.5F, 2F);
             pathTime = Time.time + 2;
             panic += 0.5F * Time.deltaTime;
+
+            if (!avoidedLastF)
+                SheepManager.instance.SpawnPopup(transform.position, "!");
+
+            avoidedLastF = true;
         }
+        else
+            avoidedLastF = false;
 
         if (state == State.LOVE)
         {
-             if (Random.Range(0, 500) == 0)
+            if (Random.Range(0, 500) == 0)
+            {
+                sound.pitch = Random.Range(0.95F, 1.05F);
+                sound.PlayOneShot(mehSounds[Random.Range(0, mehSounds.Length)]);
                 SheepManager.instance.SpawnPopup(transform.position, mehs[Random.Range(0, mehs.Length)] + " ❤️");
+            }
         }
         else if (Random.Range(0, 1000) == 0)
+        {
+            sound.pitch = Random.Range(0.95F, 1.05F);
+            sound.PlayOneShot(mehSounds[Random.Range(0, mehSounds.Length)]);
             SheepManager.instance.SpawnPopup(transform.position, mehs[Random.Range(0, mehs.Length)]);
+        }
+        else if (Random.Range(0, 500) == 0)
+            sound.PlayOneShot(mehSounds[Random.Range(0, mehSounds.Length)]);
     }
 
     void SetTarget()
@@ -245,12 +270,28 @@ public class SheepController : MonoBehaviour
             state = State.ALIVE;
             panic = Mathf.Max(0, panic) + 2;
             if (Random.Range(0, 2) == 0)
+            {
                 SheepManager.instance.SpawnPopup(transform.position, panicMehs[Random.Range(0, mehs.Length)]);
+                sound.pitch = Random.Range(1.1F, 1.2F);
+                sound.PlayOneShot(mehSounds[Random.Range(0, mehSounds.Length)]);
+            }
         }
         else
         {
-            if (panic > 1 && Random.Range(0, 3) == 0)
-                SheepManager.instance.SpawnPopup(transform.position, panicMehs[Random.Range(0, mehs.Length)]);
+            if (panic > 1)
+            {
+                if (Random.Range(0, 3) == 0)
+                {
+                    SheepManager.instance.SpawnPopup(transform.position, panicMehs[Random.Range(0, mehs.Length)]);
+                    sound.pitch = Random.Range(1F, 1.2F);
+                    sound.PlayOneShot(mehSounds[Random.Range(0, mehSounds.Length)]);
+                }
+            }
+            else if (Random.Range(0, 3) == 0)
+            {
+                sound.pitch = Random.Range(0.95F, 1.2F);
+                sound.PlayOneShot(mehSounds[Random.Range(0, mehSounds.Length)]);
+            }
             panic = Mathf.Max(0, panic) + 1;
         }
 
