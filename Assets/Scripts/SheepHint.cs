@@ -6,12 +6,14 @@ public class SheepHint : MonoBehaviour
 {
     public Transform player;
     public float minDist;
+    public float dist = 1;
+    public Vector3 offset;
 
     private MeshRenderer ren;
 
     private void Start()
     {
-        ren = GetComponent<MeshRenderer>();
+        ren = GetComponentInChildren<MeshRenderer>();
     }
 
     void Update()
@@ -22,7 +24,7 @@ public class SheepHint : MonoBehaviour
         if (goal == null)
             return;
 
-        transform.position = player.position + (goal.transform.position - player.position).normalized;
+        transform.position = player.position + offset + dist * (goal.transform.position - player.position).normalized;
         transform.LookAt(goal.transform);
         transform.rotation *= Quaternion.Euler(90, 0, 0);
     }

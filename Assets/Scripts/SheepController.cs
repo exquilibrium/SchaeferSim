@@ -310,6 +310,9 @@ public class SheepController : MonoBehaviour
         Destroy(gameObject, 0.5F);
         indicatorMat.color = new Color(0.2F, 0, 0);
         Instantiate(deathPrefab, transform.position, transform.rotation);
+
+        sound.pitch = Random.Range(0.95F, 1.2F);
+        sound.PlayOneShot(mehSounds[Random.Range(0, mehSounds.Length)]);
     }
 
     private void OnTriggerEnter(Collider other)
