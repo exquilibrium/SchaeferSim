@@ -89,15 +89,15 @@
 				#endif
 
 				float depthSample = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(input.screenPos));
-				float depth = _DepthRange * (LinearEyeDepth(depthSample.r) - input.screenPos.w);
-				float l = saturate(depth);
+				float depth = (LinearEyeDepth(depthSample.r) - input.screenPos.w);
+				float l = saturate(_DepthRange * depth + 0.2 * cos(_Time.z));
 
 				float4 col = lerp(_LineColor, _Color /* * tex2D(_MainTex, input.uv + float2(cos(_Time.z + input.uv.x * 5) * 0.01, cos(_Time.z * 0.5 + input.uv.y * 5) * 0.01))*/, l);
 				col = col * lerp(_LightColor0, fixed4(1, 1, 1, 1), 0.5);
 				UNITY_APPLY_FOG(input.fogCoord, col);
 
 				//return col;
-				float4 back = tex2Dproj(_BackgroundTexture, input.grabPos + saturate(depth * 0.5) * float4(cos(_Time.z + input.uv.x * 10) * 0.02, cos(_Time.z * 1.5 + input.uv.y * 10) * 0.02, 0, 0));
+				float4 back = tex2Dproj(_BackgroundTexture, input.grabPos + saturate(depth) * float4(cos(_Time.z + input.uv.x * 10) * 0.5, cos(_Time.z * 1.5 + input.uv.y * 10) * 0.5, 0, 0));
 				return (1 - col.a) * back + col.a * col;
 			}
 
