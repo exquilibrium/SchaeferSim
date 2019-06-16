@@ -1,0 +1,10 @@
+{
+	"m_deviceIds": [ "SAM0C4C", "SAM0C4D", "SAM0C4E" ],
+    "m_renderViewCount": 8,
+    "m_viewShift": 4,
+    "m_lenticularSlopeY": 2.0,
+    "m_lenticularSlopeX": 3.0,
+    "m_bgrDisplay": false,
+    "m_invertViewport": false,
+    "m_rightToLeft": true
+}

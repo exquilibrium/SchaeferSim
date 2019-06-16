@@ -1,0 +1,10 @@
+{
+	"m_deviceIds": [ "DEL4147", "LZT0001" ],
+    "m_renderViewCount": 8,
+    "m_viewShift": 0,
+    "m_lenticularSlopeY": 40.0,
+    "m_lenticularSlopeX": 51.0,
+    "m_bgrDisplay": false,
+    "m_invertViewport": true,
+    "m_rightToLeft": true
+}

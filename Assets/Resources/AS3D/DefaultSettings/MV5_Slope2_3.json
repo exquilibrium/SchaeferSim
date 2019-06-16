@@ -1,0 +1,10 @@
+{
+	"m_deviceIds": [ "MON4000", "YTH0173" ],
+    "m_renderViewCount": 5,
+    "m_viewShift": 0,
+    "m_lenticularSlopeY": 2.0,
+    "m_lenticularSlopeX": 3.0,
+    "m_bgrDisplay": false,
+    "m_invertViewport": true,
+    "m_rightToLeft": true
+}
