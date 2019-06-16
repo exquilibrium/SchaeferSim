@@ -1,0 +1,11 @@
+{
+    "m_name": "",
+    "m_deviceIds": [ "SAM0354" ],
+    "m_renderViewCount": 5,
+    "m_viewShift": 0,
+    "m_lenticularSlopeY": 1.0,
+    "m_lenticularSlopeX": 1.0,
+    "m_bgrDisplay": false,
+    "m_invertViewport": false,
+    "m_rightToLeft": true
+}
