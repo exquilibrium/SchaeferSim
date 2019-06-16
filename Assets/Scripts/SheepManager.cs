@@ -32,6 +32,12 @@ public class SheepManager : MonoBehaviour
         if (instance != null)
             Destroy(instance);
         instance = this;
+
+    }
+
+    public int GetSheepCount()
+    {
+        return sheep.Count; 
     }
 
     public bool AvoidPiles(Vector3 pos, out Vector3 avoidVec)
