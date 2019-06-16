@@ -9886,7 +9886,6 @@ GameObject:
   - component: {fileID: 484398055}
   - component: {fileID: 484398054}
   - component: {fileID: -344243343710727208}
-  - component: {fileID: 6635724617450662080}
   - component: {fileID: 6405172509601856713}
   m_Layer: 0
   m_Name: Sheep
@@ -10017,25 +10016,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1.5}
   m_Center: {x: 0, y: 0.5, z: 0.25}
---- !u!95 &6635724617450662080
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7615126326297486947}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2ff28c576a6662547bbd7a57fb315d2d, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!82 &6405172509601856713
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10199,6 +10179,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: fe2e82f2f800b9a478616ebd75cdc008,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 2ff28c576a6662547bbd7a57fb315d2d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe2e82f2f800b9a478616ebd75cdc008, type: 3}
 --- !u!4 &5127430814472788364 stripped

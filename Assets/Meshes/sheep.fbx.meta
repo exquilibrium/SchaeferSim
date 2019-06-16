@@ -5,10 +5,10 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -5252816984213320552
-    second: idle
+    second: idleS
   - first:
       74: -3419257869308726280
-    second: walk
+    second: walkS
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -43,7 +43,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: idle
+      name: idleS
       takeName: idle
       internalID: -5252816984213320552
       firstFrame: 0
@@ -54,7 +54,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -72,7 +72,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: walk
+      name: walkS
       takeName: walk
       internalID: -3419257869308726280
       firstFrame: 0
@@ -83,7 +83,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0

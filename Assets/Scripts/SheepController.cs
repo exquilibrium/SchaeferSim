@@ -56,7 +56,7 @@ public class SheepController : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
         sound = GetComponent<AudioSource>();
 
         indicatorMat = indicator.GetComponent<MeshRenderer>().material;

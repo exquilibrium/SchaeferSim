@@ -4821,7 +4821,6 @@ GameObject:
   - component: {fileID: 2072454442672504956}
   - component: {fileID: 2072454442672504952}
   - component: {fileID: 2072454442672504959}
-  - component: {fileID: 374406417793571803}
   - component: {fileID: 3935747582843266478}
   m_Layer: 0
   m_Name: Player
@@ -4868,6 +4867,9 @@ MonoBehaviour:
   piles: 3
   pilesPerKill: 1
   controller: 0
+  control: 0
+  tutorialState: 0
+  playerText: {fileID: 0}
   wuffs:
   - Wuff!
   - Woof!
@@ -4889,6 +4891,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b4be3170baaf33e4da5422bcadc81bfc, type: 3}
   - {fileID: 8300000, guid: 72693abae7d117548a859c1e3cd84cea, type: 3}
   - {fileID: 8300000, guid: 1ec77cdb79db059418f5c512a3c42440, type: 3}
+  agent: {fileID: 0}
 --- !u!195 &2072454442672504959
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4911,25 +4914,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 3
---- !u!95 &374406417793571803
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2072454442672504953}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9501ad49501f51a418dbc22758a04631, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!82 &3935747582843266478
 AudioSource:
   m_ObjectHideFlags: 0
@@ -14673,6 +14657,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 09d9805906a3faa48a8d5b10e39fffc1,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 9501ad49501f51a418dbc22758a04631, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09d9805906a3faa48a8d5b10e39fffc1, type: 3}
 --- !u!4 &7424441194855762031 stripped

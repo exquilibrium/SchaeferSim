@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
         sound = GetComponent<AudioSource>();
 
         if (controller == 0)
@@ -134,10 +134,10 @@ public class PlayerController : MonoBehaviour
             }
 
             Vector3 mov = new Vector3(Input.GetAxis("Horizontal" + controller), 0, Input.GetAxis("Vertical" + controller));
-            //agent.destination = transform.position + 0.5F * mov.normalized * Mathf.Min(mov.magnitude, 1.0F);
-            agent.Move(agent.speed * Time.deltaTime * mov.normalized * Mathf.Min(mov.magnitude, 1.0F));
-            anim.SetFloat("velocity", agent.velocity.magnitude);
-            transform.LookAt(mov);
+            agent.destination = transform.position + 0.5F * mov.normalized * Mathf.Min(mov.magnitude, 1.0F);
+            //agent.Move(agent.speed * Time.deltaTime * mov.normalized * Mathf.Min(mov.magnitude, 1.0F));
+            anim.SetFloat("velocity", agent.velocity.magnitude); 
+            //transform.LookAt(mov);
         }
 
     }
