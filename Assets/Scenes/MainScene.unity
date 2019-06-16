@@ -899,6 +899,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &972106577 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5256563073987620113, guid: 16c973f1de87ebf4ca9b0d868b48329e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1078801019}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1010159084
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1797,7 +1803,7 @@ MonoBehaviour:
   cam: {fileID: 1630370577}
   player1: {fileID: 512548173}
   player2: {fileID: 1966958054}
-  goalHint2: {fileID: 0}
+  goalHint2: {fileID: 972106577}
   sheepHint2: {fileID: 1685322355}
   pileDisplay2: {fileID: 670878540}
   spotLight: {fileID: 1326603903}
