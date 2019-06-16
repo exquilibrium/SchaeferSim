@@ -52,17 +52,22 @@ public class PlayerController : MonoBehaviour
                 if (tutorialState == 0)
                 {
                     tutorialState = 1;
-                    playerText.text = "Press 'W/A/S/D' or 'ARROW -KEYS' to move.";
+                    if (controller == 0)
+                        playerText.text = "Press 'W/A/S/D' to move.";
+                    else
+                        playerText.text = "Press 'ARROW -KEYS' to move.";
                 } else if (tutorialState == 1 && (Input.GetAxis("Horizontal" + controller) != 0 || Input.GetAxis("Vertical" + controller) != 0))
                 {
                     tutorialState = 2;
-                    playerText.text = "Press 'E' to bark.";    
+                    if (controller == 0)
+                        playerText.text = "Press 'E' to bark.";    
+                    else
+                        playerText.text = "Press 'P' to bark.";
                 }
-                if (tutorialState == 5 && Input.anyKey)
+                if (tutorialState == 5 && Input.anyKeyDown)
                 {
                     tutorialState = -1;
                     playerText.text = "";
-                    // Reset  level after tutorial
                 
                 }
             }
@@ -71,7 +76,10 @@ public class PlayerController : MonoBehaviour
                 if (tutorialState == 3)
                 { 
                     tutorialState = 4;
-                    playerText.text = "Press 'Q' to eat sheep (for shit)";
+                    if (controller == 0)
+                        playerText.text = "Press 'Q' to eat a sheep for a pile.";
+                    else
+                        playerText.text = "Press 'O' to eat a sheep for a pile.";
                 }
                 if (piles > 0)
                 {
@@ -88,7 +96,10 @@ public class PlayerController : MonoBehaviour
                 if (tutorialState == 2)
                 {
                     tutorialState = 3;
-                    playerText.text = "Press 'space' to drop pile (of shit)";
+                    if (controller == 0)
+                        playerText.text = "Press 'space' to drop a pile.";
+                    else
+                        playerText.text = "Press 'L' to drop a pile.";
                 }
 
                 barkParticles.Play();
@@ -105,7 +116,7 @@ public class PlayerController : MonoBehaviour
                 if (tutorialState == 4)
                 {
                     tutorialState = 5;
-                    playerText.text = "Tutorial: Press anything to continue...";
+                    playerText.text = "Good luck...";
                 }
 
                 // Kill closest sheep if possible
@@ -128,6 +139,11 @@ public class PlayerController : MonoBehaviour
             anim.SetFloat("velocity", agent.velocity.magnitude);
         }
 
+    }
+
+    public void set(Vector3 pos)
+    {
+        agent.destination = pos;
     }
 
     // Debug

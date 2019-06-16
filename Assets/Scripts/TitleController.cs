@@ -12,6 +12,7 @@ public class TitleController : MonoBehaviour
     public GameObject pileDisplay2;
     public GameObject spotLight;
     public GameObject spotLight2;
+    public GameObject playerText2;
     public int controller;
 
     private TextMesh text;
@@ -29,8 +30,8 @@ public class TitleController : MonoBehaviour
 
     void FixedUpdate()
     {
-        player1.GetComponent<PlayerController>().agent.destination = (new Vector3(-10, 1 - 10));
-        player2.GetComponent<PlayerController>().agent.destination = (new Vector3(-15, 1 - 10));
+        player1.GetComponent<PlayerController>().set(new Vector3(-10, 1 - 10));
+        player2.GetComponent<PlayerController>().set(new Vector3(-15, 1 - 10));
         if (Input.GetButtonDown("Bark" + 1))
         {
             // Switch Mode
@@ -58,6 +59,7 @@ public class TitleController : MonoBehaviour
                 goalHint2.SetActive(false);
                 sheepHint2.SetActive(false);
                 pileDisplay2.SetActive(false);
+                playerText2.SetActive(false);
                 cam.player2 = player1.transform;
             }
             spotLight.SetActive(false);
