@@ -27,7 +27,7 @@ public class SheepManager : MonoBehaviour
     void Start()
     {
         for (int i = 0; i < spawnCount; ++i)
-            sheep.Add(Instantiate(sheepPrefab).GetComponent<SheepController>());
+            sheep.Add(Instantiate(sheepPrefab, transform.position, Quaternion.identity).GetComponent<SheepController>());
 
         if (instance != null)
             Destroy(instance);
