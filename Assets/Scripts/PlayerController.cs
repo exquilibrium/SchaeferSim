@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
                 "Sheeps Eaten:" + sheepEaten + "\n" +
                 "Piles Dropped:" + pilesDropped + "\n" +
                 "Bark Amount:" + barkAmount + "\n" +
-                "Overall Score:" + (SheepManage.instance.GetSheepCount() * 10 - sheepEaten * 10 - pilesDropped * 3 - barkAmount);
+                "Overall Score:" + (SheepManager.instance.GetSheepCount() * 10 - sheepEaten * 10 - pilesDropped * 3 - barkAmount);
         }
         if (control)
         {
