@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public NavMeshAgent agent;
     private Animator anim;
     private AudioSource sound;
+    private float lastTutorialTime;
 
     void Start()
     {
@@ -49,6 +50,11 @@ public class PlayerController : MonoBehaviour
         {
             if (tutorialState > -1)
             {
+                if (Time.time - lastTutorialTime > 10)
+                {
+                    tutorialState = -1;
+                    playerText.text = "";
+                }
                 if (tutorialState == 0)
                 {
                     tutorialState = 1;
@@ -56,19 +62,22 @@ public class PlayerController : MonoBehaviour
                         playerText.text = "Press 'W/A/S/D' to move.";
                     else
                         playerText.text = "Press 'ARROW -KEYS' to move.";
-                } else if (tutorialState == 1 && (Input.GetAxis("Horizontal" + controller) != 0 || Input.GetAxis("Vertical" + controller) != 0))
+
+                    lastTutorialTime = Time.time;
+                }
+                else if (tutorialState == 1 && (Input.GetAxis("Horizontal" + controller) != 0 || Input.GetAxis("Vertical" + controller) != 0))
                 {
                     tutorialState = 2;
                     if (controller == 0)
                         playerText.text = "Press 'E' to bark.";    
                     else
                         playerText.text = "Press 'P' to bark.";
+                    lastTutorialTime = Time.time;
                 }
                 if (tutorialState == 5 && Input.anyKeyDown)
                 {
                     tutorialState = -1;
                     playerText.text = "";
-                
                 }
             }
             if (Input.GetButtonDown("DropPile" + controller))
@@ -80,6 +89,7 @@ public class PlayerController : MonoBehaviour
                         playerText.text = "Press 'Q' to eat a sheep for a pile.";
                     else
                         playerText.text = "Press 'O' to eat a sheep for a pile.";
+                    lastTutorialTime = Time.time;
                 }
                 if (piles > 0)
                 {
@@ -100,6 +110,7 @@ public class PlayerController : MonoBehaviour
                         playerText.text = "Press 'space' to drop a pile.";
                     else
                         playerText.text = "Press 'L' to drop a pile.";
+                    lastTutorialTime = Time.time;
                 }
 
                 barkParticles.Play();
@@ -117,6 +128,7 @@ public class PlayerController : MonoBehaviour
                 {
                     tutorialState = 5;
                     playerText.text = "Good luck...";
+                    lastTutorialTime = Time.time;
                 }
 
                 // Kill closest sheep if possible
@@ -134,17 +146,15 @@ public class PlayerController : MonoBehaviour
             }
 
             Vector3 mov = new Vector3(Input.GetAxis("Horizontal" + controller), 0, Input.GetAxis("Vertical" + controller));
-            agent.destination = transform.position + 0.5F * mov.normalized * Mathf.Min(mov.magnitude, 1.0F);
-            //agent.Move(agent.speed * Time.deltaTime * mov.normalized * Mathf.Min(mov.magnitude, 1.0F));
-            anim.SetFloat("velocity", agent.velocity.magnitude); 
-            //transform.LookAt(mov);
+            //agent.destination = transform.position + 0.5F * mov.normalized * Mathf.Min(mov.magnitude, 1.0F);
+            mov = agent.speed * mov.normalized * Mathf.Min(mov.magnitude, 1.0F);
+            agent.Move(Time.deltaTime * mov);
+            anim.SetFloat("velocity", mov.magnitude); 
+
+            if (mov.sqrMagnitude > 0)
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(mov, Vector3.up), Time.deltaTime * agent.angularSpeed);
         }
 
-    }
-
-    public void set(Vector3 pos)
-    {
-        agent.destination = pos;
     }
 
     // Debug

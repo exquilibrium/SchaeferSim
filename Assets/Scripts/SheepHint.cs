@@ -16,7 +16,7 @@ public class SheepHint : MonoBehaviour
         ren = GetComponentInChildren<MeshRenderer>();
     }
 
-    void Update()
+    void LateUpdate()
     {
         SheepController goal = SheepManager.instance.FindClosest(player.position, float.MaxValue);
         ren.enabled = goal != null && (goal.transform.position - player.position).sqrMagnitude > minDist * minDist;

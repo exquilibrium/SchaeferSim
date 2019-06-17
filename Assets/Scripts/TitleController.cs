@@ -28,10 +28,8 @@ public class TitleController : MonoBehaviour
         spotLight2.GetComponent<Light>().intensity = 1;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        player1.GetComponent<PlayerController>().set(new Vector3(-35, 1, 40));
-        player2.GetComponent<PlayerController>().set(new Vector3(-37, 1, 35));
         if (Input.GetButtonDown("Bark" + 1))
         {
             // Switch Mode
@@ -50,7 +48,8 @@ public class TitleController : MonoBehaviour
         if (Input.GetButtonDown("Bark" + 0))
         {
             cam.titleScreen = false;
-            player1.GetComponent<PlayerController>().control = true;
+            PlayerController p = player1.GetComponent<PlayerController>();
+            p.control = true;
             player2.GetComponent<PlayerController>().control = true;
             cam.player2 = player2.transform;
             if (controller == 0)

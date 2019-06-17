@@ -1619,9 +1619,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25e6df8df585e7a4db6e3f15b638609e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0.4472136, y: 0.8944272}
-  scrollSpeed: 3
-  cookieSize: 100
+  direction: {x: 0.5144958, y: 0, z: 0.8574929}
+  scrollSpeed: 5
+  cookieSize: 200
 --- !u!108 &1507418070
 Light:
   m_ObjectHideFlags: 0
@@ -1637,7 +1637,7 @@ Light:
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 975
+  m_CookieSize: 200
   m_Shadows:
     m_Type: 0
     m_Resolution: -1

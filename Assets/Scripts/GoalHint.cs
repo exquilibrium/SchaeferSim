@@ -8,7 +8,7 @@ public class GoalHint : MonoBehaviour
     public float dist = 1;
     public Vector3 offset;
 
-    void Update()
+    void LateUpdate()
     {
         transform.position = player.position + offset + (goal.position - player.position).normalized * dist;
         transform.LookAt(goal);
